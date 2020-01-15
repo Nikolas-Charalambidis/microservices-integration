@@ -1,5 +1,4 @@
-name: Java CI
-
+name: Maven Build
 on: [push]
 
 jobs:
