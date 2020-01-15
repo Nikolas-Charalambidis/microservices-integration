@@ -1,0 +1,57 @@
+version: '2.1'
+services:
+  
+  ### INFRASTRUCTURE ###
+  
+  # Redis
+  mi-redis:
+    image: redis
+    container_name: mi-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - 6379:6379
+    volumes:
+      - mi-redis-data
+
+  ### MICROSERVICES ###
+  
+  # Eureka Server
+  eureka-server:
+    image: chan01.vse.cz/mi-eureka-server:1.0.0
+    container_name: eureka-server
+    ports:
+      - 8761:8080
+      - 3000:3000
+  
+  # Eureka Zuul
+  eureka-zuul:
+    image: chan01.vse.cz/mi-eureka-zuul:1.0.0
+    container_name: eureka-zuul
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    restart: on-failure
+    ports:
+      - 8762:8080
+      
+  # SideCar
+  eureka-sidecar-redis:
+    image: chan01.vse.cz/mi-eureka-sidecar-redis:1.0.0
+    container_name: eureka-sidecar-redis
+    depends_on:
+      eureka-zuul:
+        condition: service_healthy
+    restart: on-failure
+    ports:
+      - 16379:8080
+  
+  # API
+  api-notification-8080:
+    image: chan01.vse.cz/mi-api-notification:1.0.0
+    container_name: api-notification-8080
+    depends_on:
+      eureka-sidecar-redis:
+        condition: service_healthy
+    restart: on-failure
+    ports:
+      - 8080:8080

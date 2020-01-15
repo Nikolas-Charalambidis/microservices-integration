@@ -1,0 +1,49 @@
+server:
+  port: 8762
+
+spring:
+  application:
+    name: eureka-zuul
+  cloud:
+    config:
+      uri: http://${eureka.instance.hostname}:8888
+
+eureka:
+  client:
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: eureka-zuul
+    leaseRenewalIntervalInSeconds: 15
+    leaseExpirationDurationInSeconds: 2
+    prefer-ip-address: true
+    
+zuul:
+  # Disable accessing services using service name (i.e. gallery-service).
+  # They should be only accessed through the path defined below.
+  ignored-services: "*"
+  host:
+    socket-timeout-millis: 10000
+  routes:
+    api-customer.path: /api-customer/**
+    api-customer.service: api-customer
+    api-contract.path: /api-contract/**
+    api-contract.service: api-contract
+    api-file.path: /api-file/**
+    api-file.service: api-file
+    api-notification.path: /api-notification/**
+    api-notification.service: api-notification
+    sidecar-redis.path: /sidecar-redis/**
+    sidecar-redis.service: sidecar-redis
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 10000

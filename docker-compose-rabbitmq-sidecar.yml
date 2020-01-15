@@ -1,0 +1,46 @@
+version: '2.1'
+services:
+  
+  ### INFRASTRUCTURE ###
+  
+  # RabbitMQ
+  mi-rabbitmq:
+    image: rabbitmq:management
+    container_name: mi-rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - mi-rabbitmq-data
+
+  ### MICROSERVICES ###
+  
+  # Eureka Server
+  eureka-server:
+    image: chan01.vse.cz/mi-eureka-server:1.0.0
+    container_name: eureka-server
+    ports:
+      - 8761:8080
+      - 3000:3000
+  
+  # Eureka Zuul
+  eureka-zuul:
+    image: chan01.vse.cz/mi-eureka-zuul:1.0.0
+    container_name: eureka-zuul
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    restart: on-failure
+    ports:
+      - 8762:8080
+      
+  # SideCar
+  eureka-sidecar-rabbitmq:
+    image: chan01.vse.cz/mi-eureka-sidecar-rabbitmq:1.0.0
+    container_name: eureka-sidecar-rabbitmq
+    depends_on:
+      eureka-zuul:
+        condition: service_healthy
+    restart: on-failure
+    ports:
+      - 25672:8080

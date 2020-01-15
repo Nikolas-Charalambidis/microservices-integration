@@ -1,0 +1,12 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8080/eureka/
+  instance:
+    hostname: eureka-sidecar-rabbitmq
+
+sidecar:
+  hostname: mi-rabbitmq
+  port: 5672
+  health-uri: http://${eureka.instance.hostname}:${server.port}/rabbitmq/health
+  home-page-uri: ${eureka.instance.hostname}:${server.port}/

@@ -1,0 +1,12 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8080/eureka/
+  instance:
+    hostname: eureka-sidecar-redis
+
+sidecar:
+  hostname: mi-redis
+  port: 6379
+  health-uri: http://${eureka.instance.hostname}:${server.port}/redis/health
+  home-page-uri: ${eureka.instance.hostname}:${server.port}/

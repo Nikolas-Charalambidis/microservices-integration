@@ -1,0 +1,33 @@
+server:
+  port: 25672
+
+spring:
+  application:
+    name: eureka-sidecar-rabbitmq
+  cloud:
+    config:
+      uri: http://${eureka.instance.hostname}:8888
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+eureka:
+  client:
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 15
+    leaseExpirationDurationInSeconds: 2
+    prefer-ip-address: true
+
+sidecar:
+  hostname: ${eureka.instance.hostname}
+  port: 5672
+  timeout:
+    socket: 2000
+    shutdown: 2000
+    command: 1500
+  health-uri: http://${eureka.instance.hostname}:${server.port}/rabbitmq/health
+  home-page-uri: ${eureka.instance.hostname}:${server.port}/

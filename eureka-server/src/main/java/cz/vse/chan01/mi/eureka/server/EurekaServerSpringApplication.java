@@ -1,0 +1,13 @@
+package cz.vse.chan01.mi.eureka.server;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+
+@SpringBootApplication
+@EnableEurekaServer
+public class EurekaServerSpringApplication {
+	public static void main(String[] args) {
+		SpringApplication.run(EurekaServerSpringApplication.class, args);
+	}
+}
