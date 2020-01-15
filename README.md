@@ -1,3 +1,3 @@
-![](https://github.com/Nikolas-Charalambidis/microservices-integration/workflows/.github/workflows/maven.yml/badge.svg)
+![](https://github.com/Nikolas-Charalambidis/microservices-integration/workflows/Maven%20build/badge.svg)
 
 # microservices-integration
