@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<artifactId>swagger</artifactId>
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>microservices-integration</artifactId>
+		<groupId>cz.vse.chan01</groupId>
+		<version>1.0.0</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<artifactId>springfox-swagger2</artifactId>
+			<groupId>io.springfox</groupId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<artifactId>swagger-core</artifactId>
+			<groupId>io.swagger</groupId>
+			<version>1.5.4</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>2.4.8</version>
+				<executions>
+					<execution>
+						<id>customer</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<language>spring</language>
+							<library>spring-boot</library>
+							<languageSpecificPrimitives>true</languageSpecificPrimitives>
+
+							<inputSpec>${basedir}/src/main/resources/swagger/customer.yaml</inputSpec>
+							<apiPackage>cz.vse.swagger.customer.api</apiPackage>
+							<modelPackage>cz.vse.swagger.customer.model</modelPackage>
+
+							<configOptions>
+								<java8>false</java8>
+								<interfaceOnly>true</interfaceOnly>
+								<useOptional>true</useOptional>
+								<dateLibrary>java8-datetime</dateLibrary>
+							</configOptions>
+
+							<generateApiDocumentation>false</generateApiDocumentation>
+							<generateApiTests>false</generateApiTests>
+							<generateApis>true</generateApis>
+							<generateModelTests>false</generateModelTests>
+							<generateModels>true</generateModels>
+							<generateSupportingFiles>false</generateSupportingFiles>
+
+							<importMappings>
+								<importMapping>LocalDateTime=OffsetDateTime</importMapping>
+							</importMappings>
+							<typeMappings>
+								<typeMapping>OffsetDateTime=java.time.LocalDateTime</typeMapping>
+							</typeMappings>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/swagger/src/main/java</source>
+							</sources>
+						</configuration>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

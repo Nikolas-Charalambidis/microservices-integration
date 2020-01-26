@@ -1,0 +1,7 @@
+CREATE TABLE customer (
+  customer_id INT AUTO_INCREMENT  PRIMARY KEY,
+  name VARCHAR(250) NOT NULL,
+  surname VARCHAR(250) NOT NULL,
+  email VARCHAR(250) DEFAULT NULL,
+  date_birth DATE NOT NULL
+);

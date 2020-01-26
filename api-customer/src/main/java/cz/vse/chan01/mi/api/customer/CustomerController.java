@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import cz.vse.chan01.mi.model.customer.Customer;
+import cz.vse.swagger.customer.api.CustomerApi;
+import cz.vse.swagger.customer.model.Customer;
 
 @RestController("/")
-public class CustomerController {
+public class CustomerController implements CustomerApi {
 
 	private final CustomerService customerService;
 
@@ -21,13 +22,15 @@ public class CustomerController {
 		this.customerService = customerService;
 	}
 
+	@Override
 	@GetMapping("/customer")
 	public ResponseEntity<List<Customer>> customers() {
 		return new ResponseEntity<>(this.customerService.customers(), HttpStatus.OK);
 	}
 
+	@Override
 	@GetMapping("/customer/{customerId}")
-	public ResponseEntity<List<Customer>> customers(@PathVariable long customerId) {
-		return new ResponseEntity<>(this.customerService.customers(customerId), HttpStatus.OK);
+	public ResponseEntity<Customer> customerById(@PathVariable Long customerId) {
+		return new ResponseEntity<>(this.customerService.customer(customerId), HttpStatus.OK);
 	}
 }

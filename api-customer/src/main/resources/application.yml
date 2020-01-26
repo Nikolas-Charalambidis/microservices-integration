@@ -4,14 +4,30 @@ spring:
   cloud:
     config:
       uri: http://${eureka.instance.hostname}:8888
+  datasource:
+    url: jdbc:h2:mem:customers;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    name: customers
+    platform: h2
+    initialization-mode: always
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  h2:
+    console:
+      enabled: true
 
 eureka:
   client:
     fetch-registry: true
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}/eureka/
   instance:
-    hostname: api-customer
+    hostname: localhost:8761
     leaseRenewalIntervalInSeconds: 15
     leaseExpirationDurationInSeconds: 2
     prefer-ip-address: true

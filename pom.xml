@@ -13,13 +13,13 @@
 		<module>eureka-server</module>
 		<module>eureka-auth</module>
 		<module>eureka-zuul</module>
-		<module>mi-common</module>
+		<module>eureka-sidecar-redis</module>
+		<module>eureka-sidecar-rabbitmq</module>
+		<module>swagger</module>
 		<module>api-customer</module>
 		<module>api-contract</module>
 		<module>api-file</module>
 		<module>api-notification</module>
-		<module>eureka-sidecar-redis</module>
-		<module>eureka-sidecar-rabbitmq</module>
 	</modules>
 
 	<parent>

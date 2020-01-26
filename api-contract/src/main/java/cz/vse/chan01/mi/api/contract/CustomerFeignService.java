@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import cz.vse.chan01.mi.model.customer.Customer;
+import cz.vse.swagger.customer.model.Customer;
 
 @FeignClient("api-customer")
 public interface CustomerFeignService {

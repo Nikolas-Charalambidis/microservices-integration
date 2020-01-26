@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cz.vse.chan01.mi.model.contract.Contract;
-import cz.vse.chan01.mi.model.customer.Customer;
 import cz.vse.chan01.mi.model.file.File;
+import cz.vse.swagger.customer.model.Customer;
 
 @RestController("/")
 public class ContractController {

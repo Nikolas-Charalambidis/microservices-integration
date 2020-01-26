@@ -23,7 +23,7 @@
 		</dependency>
 		<dependency>
 			<groupId>cz.vse.chan01</groupId>
-			<artifactId>mi-common</artifactId>
+			<artifactId>swagger</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>

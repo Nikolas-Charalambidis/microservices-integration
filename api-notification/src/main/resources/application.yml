@@ -20,4 +20,4 @@ eureka:
     prefer-ip-address: true
 
 sidecar:
-  appName: eureka-sidecar-redis
+  app-name: eureka-sidecar-redis

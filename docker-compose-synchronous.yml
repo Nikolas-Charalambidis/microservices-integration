@@ -1,0 +1,65 @@
+version: '2.1'
+services:
+
+  ### INFRASTRUCTURE ###
+
+  # None
+
+  ### MICROSERVICES ###
+
+  # Eureka Server
+  eureka-server:
+    image: chan01.vse.cz/mi-eureka-server:1.0.0
+    container_name: eureka-server
+    ports:
+      - 8761:8080
+      - 3000:3000
+
+  # Eureka Zuul
+  eureka-zuul:
+    image: chan01.vse.cz/mi-eureka-zuul:1.0.0
+    container_name: eureka-zuul
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    restart: on-failure
+    ports:
+      - 8762:8080
+
+  # API
+  api-customer-8070:
+    image: chan01.vse.cz/mi-api-customer:1.0.0
+    container_name: api-customer-8070
+    restart: on-failure
+    depends_on:
+      eureka-zuul:
+        condition: service_healthy
+    ports:
+      - 8070:8080
+  api-customer-8071:
+    image: chan01.vse.cz/mi-api-customer:1.0.0
+    container_name: api-customer-8071
+    restart: on-failure
+    depends_on:
+      eureka-zuul:
+        condition: service_healthy
+    ports:
+      - 8071:8080
+  #api-contract-8080:
+  #  image: chan01.vse.cz/mi-api-contract:1.0.0
+  #  container_name: api-contract-8080
+  #  restart: on-failure
+  #  depends_on:
+  #    eureka-zuul:
+  #      condition: service_healthy
+  #  ports:
+  #    - 8080:8080
+  #api-contract-8081:
+  #  image: chan01.vse.cz/mi-api-contract:1.0.0
+  #  container_name: api-contract-8081
+  #  restart: on-failure
+  #  depends_on:
+  #    eureka-zuul:
+  #      condition: service_healthy
+  #  ports:
+  #    - 8081:8080
