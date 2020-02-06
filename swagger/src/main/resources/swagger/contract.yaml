@@ -1,0 +1,98 @@
+---
+swagger: '2.0'
+info:
+  title: Contract API
+  description: Contract API
+  version: 0.1.0
+  host: localhost:8762/api-contract
+paths:
+  /contract:
+    get:
+      tags:
+        - contract
+      summary: Find all contracts
+      description: Returns list of contracts
+      operationId: contracts
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: contracts found
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/Contract"
+        '404':
+          description: No contract found
+    post:
+      tags:
+        - contract
+      summary: Creates a contract
+      description: Creates a contract
+      operationId: postContract
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: contract
+          description: The contract to create.
+          schema:
+            $ref: '#/definitions/Contract'
+      responses:
+        '201':
+          description: Created
+  /contract/{contractId}:
+    get:
+      tags:
+        - contract
+      summary: Find contract by ID
+      description: Returns a single contract
+      operationId: contractById
+      produces:
+        - application/json
+      parameters:
+        - name: contractId
+          in: path
+          description: ID of contract to return
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: contract found
+          schema:
+            "$ref": "#/definitions/Contract"
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: contract not found
+definitions:
+  Contract:
+    type: object
+    properties:
+      contractId:
+        type: integer
+        format: int64
+      customerId:
+        type: integer
+        format: int64
+      fileId:
+        type: integer
+        format: int64
+      customerLabel:
+        type: string
+      contractType:
+        type: string
+        enum: [A, B, C, D, E]
+      contractStatus:
+        type: string
+        enum: [NEW, CREATED, APPROVED, DENIED]
+      creationDate:
+        type: string
+        format: date
+      expirationDate:
+        type: string
+        format: date
+        

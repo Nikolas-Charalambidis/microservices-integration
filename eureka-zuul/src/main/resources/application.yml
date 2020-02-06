@@ -37,13 +37,10 @@ zuul:
     sidecar-redis.path: /sidecar-redis/**
     sidecar-redis.service: sidecar-redis
 
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 20000
 ribbon:
-  ConnectTimeout: 3000
-  ReadTimeout: 10000
+  ConnectTimeout:  10000
+  ReadTimeout:  10000
+  eager-load:
+    enabled: true
+  eureka:
+    enabled: true

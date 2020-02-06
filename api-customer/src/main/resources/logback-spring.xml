@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="LOGS" value="./logs" />
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>
+				%d{HH:mm:ss.SSS} [%blue(%20.20thread)] %-5level %yellow(%logger{10}) - %msg%n
+			</pattern>
+		</layout>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- active file to log -->
+		<file>${LOGS}/api-customer.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOGS}/api-customer_%d{yyyy-MM-dd}_.%i.log</fileNamePattern>
+			<!-- maximum size triggering policy -->
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d %p %logger{10} [%t] %m%n</pattern>
+			<!-- <pattern>%d %p %C{1.} [%t] %m%n</pattern> -->
+		</encoder>
+</appender>
+
+<!-- log everything at INFO level -->
+	<root level="info">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+	<!-- log cz.vse.* at TRACE level -->
+	<logger name="cz.vse" level="trace" additivity="false">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+</configuration>

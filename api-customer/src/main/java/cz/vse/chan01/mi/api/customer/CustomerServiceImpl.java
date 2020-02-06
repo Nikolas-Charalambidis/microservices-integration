@@ -6,30 +6,35 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cz.vse.swagger.customer.model.Customer;
+import cz.vse.chan01.swagger.customer.model.Customer;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
 	private final CustomerJpaRepository customerJpaRepository;
 
 	private final ModelMapper modelMapper;
 
 	@Autowired
-	public CustomerServiceImpl(final CustomerJpaRepository customerJpaRepository,
-		final ModelMapper modelMapper) {
+	public CustomerServiceImpl(final CustomerJpaRepository customerJpaRepository, final ModelMapper modelMapper) {
 		this.customerJpaRepository = customerJpaRepository;
 		this.modelMapper = modelMapper;
 	}
 
 	@Override
 	public List<Customer> customers() {
-		return this.customerJpaRepository.findAll().stream()
+		final List<Customer> customers =  this.customerJpaRepository.findAll().stream()
 			.map(ce -> modelMapper.map(ce, Customer.class))
 			.collect(Collectors.toList());
+		LOGGER.info("Found {} customers", customers.size());
+		return customers;
 	}
 
 	@Override

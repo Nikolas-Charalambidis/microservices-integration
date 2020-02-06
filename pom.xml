@@ -10,12 +10,12 @@
 	<version>1.0.0</version>
 
 	<modules>
+		<module>swagger</module>
 		<module>eureka-server</module>
 		<module>eureka-auth</module>
 		<module>eureka-zuul</module>
 		<module>eureka-sidecar-redis</module>
 		<module>eureka-sidecar-rabbitmq</module>
-		<module>swagger</module>
 		<module>api-customer</module>
 		<module>api-contract</module>
 		<module>api-file</module>

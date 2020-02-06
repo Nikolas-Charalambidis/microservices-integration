@@ -99,4 +99,16 @@ public class CustomerEntity {
 		return Objects.hash(getCustomerId(), getName(), getSurname(), getDateBirth());
 	}
 	//getters, setters, toString, hashCode, equals
+
+
+	@Override
+	public String toString() {
+		return "CustomerEntity{" +
+			"customerId=" + customerId +
+			", name='" + name + '\'' +
+			", surname='" + surname + '\'' +
+			", email='" + email + '\'' +
+			", dateBirth=" + dateBirth +
+			'}';
+	}
 }
