@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * Contract
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-06T23:25:03.098+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-09T22:14:12.891+01:00")
 
 public class Contract   {
   @JsonProperty("contractId")

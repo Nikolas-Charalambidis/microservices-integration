@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: api-document
+  #rabbitmq:
+  #  host: localhost
+  #  port: 5672
+  #  password: guest
+  #  username: guest
+  #autoconfigure:
+  #  exclude:
+  #    - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+eureka:
+  client:
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 15
+    leaseExpirationDurationInSeconds: 2
+    prefer-ip-address: true

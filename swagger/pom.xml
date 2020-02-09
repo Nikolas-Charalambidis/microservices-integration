@@ -97,6 +97,38 @@
 							</typeMappings>
 						</configuration>
 					</execution>
+					<execution>
+						<id>document</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<language>spring</language>
+							<library>spring-boot</library>
+							<languageSpecificPrimitives>true</languageSpecificPrimitives>
+							<inputSpec>${basedir}/src/main/resources/swagger/document.yaml</inputSpec>
+							<apiPackage>cz.vse.chan01.swagger.document.api</apiPackage>
+							<modelPackage>cz.vse.chan01.swagger.document.model</modelPackage>
+							<configOptions>
+								<java8>false</java8>
+								<interfaceOnly>true</interfaceOnly>
+								<useOptional>true</useOptional>
+								<dateLibrary>java8-datetime</dateLibrary>
+							</configOptions>
+							<generateApiDocumentation>false</generateApiDocumentation>
+							<generateApiTests>false</generateApiTests>
+							<generateApis>true</generateApis>
+							<generateModelTests>false</generateModelTests>
+							<generateModels>true</generateModels>
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<importMappings>
+								<importMapping>LocalDateTime=OffsetDateTime</importMapping>
+							</importMappings>
+							<typeMappings>
+								<typeMapping>OffsetDateTime=java.time.LocalDateTime</typeMapping>
+							</typeMappings>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>

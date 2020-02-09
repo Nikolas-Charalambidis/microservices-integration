@@ -24,6 +24,8 @@ public class ContractServiceImpl implements ContractService {
 
 	private final CustomerFeignClient customerFeignClient;
 
+	private final DocumentService documentService;
+
 	private final RestTemplate restTemplate;
 
 	private final ModelMapper modelMapper;
@@ -32,11 +34,13 @@ public class ContractServiceImpl implements ContractService {
 	public ContractServiceImpl(
 		final ContractJpaRepository contractJpaRepository,
 		final CustomerFeignClient customerFeignClient,
+		final DocumentService documentService,
 		final ModelMapper modelMapper,
 		final RestTemplate restTemplate)
 	{
 		this.contractJpaRepository = contractJpaRepository;
 		this.customerFeignClient = customerFeignClient;
+		this.documentService = documentService;
 		this.modelMapper = modelMapper;
 		this.restTemplate = restTemplate;
 	}
@@ -56,16 +60,17 @@ public class ContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	//@HystrixCommand(fallbackMethod = "contractOnMissingCustomer", )
 	public long contract(final Contract contract) {
 		final Customer customer = this.customerFeignClient.customer(contract.getCustomerId());
 		final ContractEntity contractEntity = this.modelMapper.map(contract, ContractEntity.class);
 		contractEntity.setCustomerLabel(String.format("%s %s", customer.getName(), customer.getSurname()));
 		contractEntity.setContractStatus(ContractStatus.NEW);
 		final ContractEntity saved = this.contractJpaRepository.save(contractEntity);
+		this.documentService.createDocument(contract);
 		return saved.getContractId();
 	}
 
+	@SuppressWarnings("unused")
 	private long contractWithRestTemplate(final Contract contract) {
 		final String uri = String.format("http://eureka-zuul:8080/api-customer/customer/%d", contract.getCustomerId());
 		final Customer customer = this.restTemplate.getForEntity(URI.create(uri), Customer.class)
@@ -76,12 +81,5 @@ public class ContractServiceImpl implements ContractService {
 		final ContractEntity saved = this.contractJpaRepository.save(contractEntity);
 		return saved.getContractId();
 	}
-	//private long contractOnMissingCustomer(final Contract contract) {
-	//	final ContractEntity contractEntity = this.modelMapper.map(contract, ContractEntity.class);
-	//	contractEntity.setCustomerLabel(String.format("%s %s", contract.getContractId(), contract.getCustomerId()));
-	//	contractEntity.setContractStatus("new");
-	//	final ContractEntity saved = this.contractJpaRepository.save(contractEntity);
-	//	return saved.getContractId();
-	//}
 }
 

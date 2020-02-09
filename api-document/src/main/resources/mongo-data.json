@@ -1,0 +1,50 @@
+[
+	{
+		"id": "1",
+		"name": "abc",
+		"documentStatus": "def",
+		"contractType": "ghi",
+		"creationDate": "2016-05-11T17:32:20.897",
+		"archivationDate": "2016-05-11T17:32:20.897",
+		"versionedDocumentEntityList": [
+			{
+				"id": "1.0",
+				"date": "2016-05-11T17:32:20.897",
+				"version": "1.0.0",
+				"format": "PDF",
+				"content": "0x6"
+			},
+			{
+				"id": "1.1",
+				"date": "2016-05-11T17:32:20.897",
+				"version": "1.1.0",
+				"format": "PDF",
+				"content": "0x6"
+			}
+		]
+	},
+	{
+		"id": "2",
+		"name": "abc",
+		"documentStatus": "def",
+		"contractType": "ghi",
+		"creationDate": "2016-05-11T17:32:20.897",
+		"archivationDate": "2016-05-11T17:32:20.897",
+		"versionedDocumentEntityList": [
+			{
+				"id": "2.0",
+				"date": "2016-05-11T17:32:20.897",
+				"version": "1.0.0",
+				"format": "PDF",
+				"content": "0x6"
+			},
+			{
+				"id": "2.1",
+				"date": "2016-05-11T17:32:20.897",
+				"version": "1.1.0",
+				"format": "PDF",
+				"content": "0x6"
+			}
+		]
+	}
+]

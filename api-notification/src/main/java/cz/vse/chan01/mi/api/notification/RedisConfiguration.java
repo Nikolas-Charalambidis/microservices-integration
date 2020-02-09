@@ -1,6 +1,5 @@
 package cz.vse.chan01.mi.api.notification;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
-import cz.vse.chan01.mi.model.file.File;
+import cz.vse.chan01.swagger.document.model.Document;
 
 @Configuration
 public class RedisConfiguration {
@@ -62,10 +61,10 @@ public class RedisConfiguration {
 	}
 
 	@Bean
-	public RedisTemplate<String, File> redisTemplate() {
-		final RedisTemplate<String, File> template = new RedisTemplate<>();
+	public RedisTemplate<String, Document> redisTemplate() {
+		final RedisTemplate<String, Document> template = new RedisTemplate<>();
 		template.setConnectionFactory(jedisConnectionFactory());
-		template.setValueSerializer(new Jackson2JsonRedisSerializer<>(File.class));
+		template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Document.class));
 		return template;
 	}
 }

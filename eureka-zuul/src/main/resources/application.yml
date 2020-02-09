@@ -30,8 +30,8 @@ zuul:
     api-customer.service: api-customer
     api-contract.path: /api-contract/**
     api-contract.service: api-contract
-    api-file.path: /api-file/**
-    api-file.service: api-file
+    api-document.path: /api-document/**
+    api-document.service: api-document
     api-notification.path: /api-notification/**
     api-notification.service: api-notification
     sidecar-redis.path: /sidecar-redis/**

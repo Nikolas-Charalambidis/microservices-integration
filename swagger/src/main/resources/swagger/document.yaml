@@ -1,0 +1,174 @@
+---
+swagger: '2.0'
+info:
+  title: File API
+  description: File storage API
+  version: 0.1.0
+  host: localhost:8762/api-document
+paths:
+  /document:
+    get:
+      tags:
+        - document
+      summary: Find all documents
+      description: Returns list of documents
+      operationId: documents
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: documents found
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/Document"
+        '404':
+          description: No document found
+    post:
+      tags:
+        - document
+      summary: Creates a document
+      description: Creates a document
+      operationId: postDocument
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: document
+          description: The document to create.
+          schema:
+            $ref: '#/definitions/Document'
+      responses:
+        '201':
+          description: Created
+  /document/{documentId}:
+    get:
+      tags:
+        - document
+      summary: Find document by ID
+      description: Returns a single document
+      operationId: documentById
+      produces:
+        - application/json
+      parameters:
+        - name: documentId
+          in: path
+          description: ID of document to return
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: document found
+          schema:
+            "$ref": "#/definitions/Document"
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: document not found
+  /document/{documentId}/versioned-document:
+    get:
+      tags:
+        - document
+      summary: Find all documents
+      description: Returns list of versioned documents
+      operationId: versioned documents
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: versioned documents found
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/VersionedDocument"
+        '404':
+          description: No versioned document found
+    post:
+      tags:
+        - document
+      summary: Creates a versioned document
+      description: Creates a versioned document
+      operationId: postDocument
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: versioned document
+          description: The versioned document to create.
+          schema:
+            $ref: '#/definitions/VersionedDocument'
+      responses:
+        '201':
+          description: Created
+  /document/versioned-document/{versionedDocumentId}:
+    get:
+      tags:
+        - document
+      summary: Find versioned document by ID
+      description: Returns a single versioned document
+      operationId: versionedDocumentById
+      produces:
+        - application/json
+      parameters:
+        - name: versionedDocumentId
+          in: path
+          description: ID of versioned document to return
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: versioned document found
+          schema:
+            "$ref": "#/definitions/VersionedDocument"
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: versioned document not found
+definitions:
+  Document:
+    type: object
+    properties:
+      documentId:
+        type: integer
+        format: int64
+      name:
+        type: string
+      contractType:
+        type: string
+        enum: [A, B, C, D, E]
+      versions:
+        type: array
+        items:
+          $ref: '#/definitions/VersionedDocument'
+      documentStatus:
+        type: string
+        enum: [CREATED, ARCHIVED]
+      creationDate:
+        type: string
+        format: date
+      archivationDate:
+        type: string
+        format: date
+  VersionedDocument:
+    type: object
+    properties:
+      versionedDocumentId:
+        type: integer
+        format: int64
+      date:
+        format: datetime
+      version:
+        type: string
+        pattern: '^\d+.\d+-\d+$'
+      content:
+        type: string
+        format: binary
+      format:
+        enum: [PDF, DOCX, TXT, XML]
+    

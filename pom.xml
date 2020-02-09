@@ -18,7 +18,7 @@
 		<module>eureka-sidecar-rabbitmq</module>
 		<module>api-customer</module>
 		<module>api-contract</module>
-		<module>api-file</module>
+		<module>api-document</module>
 		<module>api-notification</module>
 	</modules>
 

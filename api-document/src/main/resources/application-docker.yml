@@ -1,0 +1,10 @@
+spring:
+  rabbitmq:
+    host: mi-rabbitmq
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8080/eureka/
+  instance:
+    hostname: api-document
