@@ -1,38 +1,24 @@
-package cz.vse.chan01.mi.api.document;
+package cz.vse.chan01.mi.api.document.entity;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.joda.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-
-import cz.vse.chan01.swagger.document.model.VersionedDocument;
-
 @Document
 public class VersionedDocumentEntity {
 
 	@Id
-	String id;
+	private String id;
 
-	//@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	//@JsonSerialize(using = LocalDateTimeSerializer.class)
-	//@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z")
-	LocalDateTime date;
+	private LocalDateTime date;
 
-	String version;
+	private String version;
 
-	String format;
+	private String format;
 
-	String content;
+	private String content;
 
 	public VersionedDocumentEntity() {
 

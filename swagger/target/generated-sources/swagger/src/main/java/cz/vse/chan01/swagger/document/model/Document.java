@@ -18,54 +18,17 @@ import javax.validation.constraints.*;
  * Document
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-09T22:14:12.998+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-12T23:30:08.529+01:00")
 
 public class Document   {
   @JsonProperty("documentId")
-  private Long documentId = null;
+  private String documentId = null;
+
+  @JsonProperty("caseId")
+  private Long caseId = null;
 
   @JsonProperty("name")
   private String name = null;
-
-  /**
-   * Gets or Sets contractType
-   */
-  public enum ContractTypeEnum {
-    A("A"),
-    
-    B("B"),
-    
-    C("C"),
-    
-    D("D"),
-    
-    E("E");
-
-    private String value;
-
-    ContractTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static ContractTypeEnum fromValue(String text) {
-      for (ContractTypeEnum b : ContractTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("contractType")
-  private ContractTypeEnum contractType = null;
 
   @JsonProperty("versions")
   @Valid
@@ -111,7 +74,7 @@ public class Document   {
   @JsonProperty("archivationDate")
   private LocalDate archivationDate = null;
 
-  public Document documentId(Long documentId) {
+  public Document documentId(String documentId) {
     this.documentId = documentId;
     return this;
   }
@@ -123,12 +86,32 @@ public class Document   {
   @ApiModelProperty(value = "")
 
 
-  public Long getDocumentId() {
+  public String getDocumentId() {
     return documentId;
   }
 
-  public void setDocumentId(Long documentId) {
+  public void setDocumentId(String documentId) {
     this.documentId = documentId;
+  }
+
+  public Document caseId(Long caseId) {
+    this.caseId = caseId;
+    return this;
+  }
+
+  /**
+   * Get caseId
+   * @return caseId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getCaseId() {
+    return caseId;
+  }
+
+  public void setCaseId(Long caseId) {
+    this.caseId = caseId;
   }
 
   public Document name(String name) {
@@ -149,26 +132,6 @@ public class Document   {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public Document contractType(ContractTypeEnum contractType) {
-    this.contractType = contractType;
-    return this;
-  }
-
-  /**
-   * Get contractType
-   * @return contractType
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public ContractTypeEnum getContractType() {
-    return contractType;
-  }
-
-  public void setContractType(ContractTypeEnum contractType) {
-    this.contractType = contractType;
   }
 
   public Document versions(List<VersionedDocument> versions) {
@@ -273,8 +236,8 @@ public class Document   {
     }
     Document document = (Document) o;
     return Objects.equals(this.documentId, document.documentId) &&
+        Objects.equals(this.caseId, document.caseId) &&
         Objects.equals(this.name, document.name) &&
-        Objects.equals(this.contractType, document.contractType) &&
         Objects.equals(this.versions, document.versions) &&
         Objects.equals(this.documentStatus, document.documentStatus) &&
         Objects.equals(this.creationDate, document.creationDate) &&
@@ -283,7 +246,7 @@ public class Document   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(documentId, name, contractType, versions, documentStatus, creationDate, archivationDate);
+    return Objects.hash(documentId, caseId, name, versions, documentStatus, creationDate, archivationDate);
   }
 
   @Override
@@ -292,8 +255,8 @@ public class Document   {
     sb.append("class Document {\n");
     
     sb.append("    documentId: ").append(toIndentedString(documentId)).append("\n");
+    sb.append("    caseId: ").append(toIndentedString(caseId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    contractType: ").append(toIndentedString(contractType)).append("\n");
     sb.append("    versions: ").append(toIndentedString(versions)).append("\n");
     sb.append("    documentStatus: ").append(toIndentedString(documentStatus)).append("\n");
     sb.append("    creationDate: ").append(toIndentedString(creationDate)).append("\n");

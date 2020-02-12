@@ -24,9 +24,6 @@ public class ContractEntity {
 	@Column(name="customer_id")
 	private Long customerId;
 
-	@Column(name="file_id")
-	private Long fileId;
-
 	@Column(name="customer_label")
 	private String customerLabel;
 
@@ -46,11 +43,10 @@ public class ContractEntity {
 
 	public ContractEntity() { }
 
-	public ContractEntity(final Long customerId, final Long fileId, final String customerLabel,
+	public ContractEntity(final Long customerId, final String customerLabel,
 		final ContractType contractType, final ContractStatus contractStatus, final LocalDate creationDate,
 		final LocalDate expirationDate) {
 		this.customerId = customerId;
-		this.fileId = fileId;
 		this.customerLabel = customerLabel;
 		this.contractType = contractType;
 		this.contractStatus = contractStatus;
@@ -72,14 +68,6 @@ public class ContractEntity {
 
 	public void setCustomerId(final Long customerId) {
 		this.customerId = customerId;
-	}
-
-	public Long getFileId() {
-		return fileId;
-	}
-
-	public void setFileId(final Long fileId) {
-		this.fileId = fileId;
 	}
 
 	public String getCustomerLabel() {
@@ -133,7 +121,6 @@ public class ContractEntity {
 		final ContractEntity that = (ContractEntity) o;
 		return Objects.equals(getContractId(), that.getContractId()) &&
 			Objects.equals(getCustomerId(), that.getCustomerId()) &&
-			Objects.equals(getFileId(), that.getFileId()) &&
 			Objects.equals(getCustomerLabel(), that.getCustomerLabel()) &&
 			getContractType() == that.getContractType() &&
 			getContractStatus() == that.getContractStatus() &&
@@ -144,7 +131,7 @@ public class ContractEntity {
 	@Override
 	public int hashCode() {
 		return Objects
-			.hash(getContractId(), getCustomerId(), getFileId(), getCustomerLabel(), getContractType(),
+			.hash(getContractId(), getCustomerId(), getCustomerLabel(), getContractType(),
 				getContractStatus(),
 				getCreationDate(), getExpirationDate());
 	}
@@ -154,7 +141,6 @@ public class ContractEntity {
 		return "ContractEntity{" +
 			"contractId=" + contractId +
 			", customerId=" + customerId +
-			", fileId=" + fileId +
 			", customerLabel='" + customerLabel + '\'' +
 			", contractType=" + contractType +
 			", contractStatus=" + contractStatus +

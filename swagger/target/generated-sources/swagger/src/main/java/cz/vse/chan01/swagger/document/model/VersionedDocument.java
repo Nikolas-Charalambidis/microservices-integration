@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -14,20 +15,20 @@ import javax.validation.constraints.*;
  * VersionedDocument
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-09T22:14:12.998+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-12T23:30:08.529+01:00")
 
 public class VersionedDocument   {
   @JsonProperty("versionedDocumentId")
-  private Long versionedDocumentId = null;
+  private String versionedDocumentId = null;
 
   @JsonProperty("date")
-  private Object date = null;
+  private java.time.LocalDateTime date = null;
 
   @JsonProperty("version")
   private String version = null;
 
   @JsonProperty("content")
-  private byte[] content = null;
+  private String content = null;
 
   /**
    * Gets or Sets format
@@ -67,7 +68,7 @@ public class VersionedDocument   {
   @JsonProperty("format")
   private FormatEnum format = null;
 
-  public VersionedDocument versionedDocumentId(Long versionedDocumentId) {
+  public VersionedDocument versionedDocumentId(String versionedDocumentId) {
     this.versionedDocumentId = versionedDocumentId;
     return this;
   }
@@ -79,15 +80,15 @@ public class VersionedDocument   {
   @ApiModelProperty(value = "")
 
 
-  public Long getVersionedDocumentId() {
+  public String getVersionedDocumentId() {
     return versionedDocumentId;
   }
 
-  public void setVersionedDocumentId(Long versionedDocumentId) {
+  public void setVersionedDocumentId(String versionedDocumentId) {
     this.versionedDocumentId = versionedDocumentId;
   }
 
-  public VersionedDocument date(Object date) {
+  public VersionedDocument date(java.time.LocalDateTime date) {
     this.date = date;
     return this;
   }
@@ -98,12 +99,13 @@ public class VersionedDocument   {
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public Object getDate() {
+  public java.time.LocalDateTime getDate() {
     return date;
   }
 
-  public void setDate(Object date) {
+  public void setDate(java.time.LocalDateTime date) {
     this.date = date;
   }
 
@@ -118,7 +120,7 @@ public class VersionedDocument   {
   **/
   @ApiModelProperty(value = "")
 
-@Pattern(regexp="^\\d+.\\d+-\\d+$") 
+@Pattern(regexp="^\\d+\\.\\d+\\.\\d+$") 
   public String getVersion() {
     return version;
   }
@@ -127,7 +129,7 @@ public class VersionedDocument   {
     this.version = version;
   }
 
-  public VersionedDocument content(byte[] content) {
+  public VersionedDocument content(String content) {
     this.content = content;
     return this;
   }
@@ -139,11 +141,11 @@ public class VersionedDocument   {
   @ApiModelProperty(value = "")
 
 
-  public byte[] getContent() {
+  public String getContent() {
     return content;
   }
 
-  public void setContent(byte[] content) {
+  public void setContent(String content) {
     this.content = content;
   }
 

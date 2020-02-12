@@ -57,8 +57,7 @@ paths:
           in: path
           description: ID of document to return
           required: true
-          type: integer
-          format: int64
+          type: string
       responses:
         '200':
           description: document found
@@ -68,80 +67,69 @@ paths:
           description: Invalid ID supplied
         '404':
           description: document not found
-  /document/{documentId}/versioned-document:
-    get:
-      tags:
-        - document
-      summary: Find all documents
-      description: Returns list of versioned documents
-      operationId: versioned documents
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: versioned documents found
-          schema:
-            type: array
-            items:
-              "$ref": "#/definitions/VersionedDocument"
-        '404':
-          description: No versioned document found
+  /document/{documentId}/version:
     post:
       tags:
         - document
       summary: Creates a versioned document
       description: Creates a versioned document
-      operationId: postDocument
+      operationId: postDocumentVersion
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
+        - in: path
+          name: documentId
+          description: ID of document to return
+          required: true
+          type: string
         - in: body
-          name: versioned document
+          name: versionedDocument
           description: The versioned document to create.
           schema:
             $ref: '#/definitions/VersionedDocument'
       responses:
         '201':
           description: Created
-  /document/versioned-document/{versionedDocumentId}:
+  /document/{documentId}/version/{versionedDocumentId}:
     get:
       tags:
         - document
       summary: Find versioned document by ID
-      description: Returns a single versioned document
+      description: Returns list of versioned documents
       operationId: versionedDocumentById
       produces:
         - application/json
       parameters:
+        - name: documentId
+          in: path
+          description: ID of document to return
+          required: true
+          type: string
         - name: versionedDocumentId
           in: path
           description: ID of versioned document to return
           required: true
-          type: integer
-          format: int64
+          type: string
       responses:
         '200':
-          description: versioned document found
+          description: documents found
           schema:
             "$ref": "#/definitions/VersionedDocument"
-        '400':
-          description: Invalid ID supplied
         '404':
-          description: versioned document not found
+    description: No versioned document found
 definitions:
   Document:
     type: object
     properties:
       documentId:
+        type: string
+      caseId:
         type: integer
         format: int64
       name:
         type: string
-      contractType:
-        type: string
-        enum: [A, B, C, D, E]
       versions:
         type: array
         items:
@@ -159,16 +147,15 @@ definitions:
     type: object
     properties:
       versionedDocumentId:
-        type: integer
-        format: int64
+        type: string
       date:
-        format: datetime
+        type: string
+        format: date-time
       version:
         type: string
-        pattern: '^\d+.\d+-\d+$'
+        pattern: '^\d+\.\d+\.\d+$'
       content:
         type: string
-        format: binary
       format:
         enum: [PDF, DOCX, TXT, XML]
     

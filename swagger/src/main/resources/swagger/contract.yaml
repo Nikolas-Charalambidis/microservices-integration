@@ -78,9 +78,6 @@ definitions:
       customerId:
         type: integer
         format: int64
-      fileId:
-        type: integer
-        format: int64
       customerLabel:
         type: string
       contractType:

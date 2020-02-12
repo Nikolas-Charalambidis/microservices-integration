@@ -1,7 +1,5 @@
 package cz.vse.chan01.mi.api.contract.service;
 
-import java.io.IOException;
-
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;

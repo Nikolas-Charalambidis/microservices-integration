@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * Contract
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-09T22:14:12.891+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-12T23:30:08.394+01:00")
 
 public class Contract   {
   @JsonProperty("contractId")
@@ -23,9 +23,6 @@ public class Contract   {
 
   @JsonProperty("customerId")
   private Long customerId = null;
-
-  @JsonProperty("fileId")
-  private Long fileId = null;
 
   @JsonProperty("customerLabel")
   private String customerLabel = null;
@@ -154,26 +151,6 @@ public class Contract   {
     this.customerId = customerId;
   }
 
-  public Contract fileId(Long fileId) {
-    this.fileId = fileId;
-    return this;
-  }
-
-  /**
-   * Get fileId
-   * @return fileId
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public Long getFileId() {
-    return fileId;
-  }
-
-  public void setFileId(Long fileId) {
-    this.fileId = fileId;
-  }
-
   public Contract customerLabel(String customerLabel) {
     this.customerLabel = customerLabel;
     return this;
@@ -288,7 +265,6 @@ public class Contract   {
     Contract contract = (Contract) o;
     return Objects.equals(this.contractId, contract.contractId) &&
         Objects.equals(this.customerId, contract.customerId) &&
-        Objects.equals(this.fileId, contract.fileId) &&
         Objects.equals(this.customerLabel, contract.customerLabel) &&
         Objects.equals(this.contractType, contract.contractType) &&
         Objects.equals(this.contractStatus, contract.contractStatus) &&
@@ -298,7 +274,7 @@ public class Contract   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(contractId, customerId, fileId, customerLabel, contractType, contractStatus, creationDate, expirationDate);
+    return Objects.hash(contractId, customerId, customerLabel, contractType, contractStatus, creationDate, expirationDate);
   }
 
   @Override
@@ -308,7 +284,6 @@ public class Contract   {
     
     sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
     sb.append("    customerId: ").append(toIndentedString(customerId)).append("\n");
-    sb.append("    fileId: ").append(toIndentedString(fileId)).append("\n");
     sb.append("    customerLabel: ").append(toIndentedString(customerLabel)).append("\n");
     sb.append("    contractType: ").append(toIndentedString(contractType)).append("\n");
     sb.append("    contractStatus: ").append(toIndentedString(contractStatus)).append("\n");

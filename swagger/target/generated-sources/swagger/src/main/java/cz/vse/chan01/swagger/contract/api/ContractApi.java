@@ -28,7 +28,7 @@ import javax.validation.constraints.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-09T22:14:12.891+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-12T23:30:08.394+01:00")
 
 @Api(value = "contract", description = "the contract API")
 public interface ContractApi {
@@ -59,7 +59,7 @@ public interface ContractApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"customerLabel\" : \"customerLabel\",  \"contractStatus\" : \"NEW\",  \"contractType\" : \"A\",  \"contractId\" : 0,  \"customerId\" : 6,  \"creationDate\" : \"2000-01-23\",  \"fileId\" : 1,  \"expirationDate\" : \"2000-01-23\"}", Contract.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"customerLabel\" : \"customerLabel\",  \"contractStatus\" : \"NEW\",  \"contractType\" : \"A\",  \"contractId\" : 0,  \"customerId\" : 6,  \"creationDate\" : \"2000-01-23\",  \"expirationDate\" : \"2000-01-23\"}", Contract.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -83,7 +83,7 @@ public interface ContractApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"customerLabel\" : \"customerLabel\",  \"contractStatus\" : \"NEW\",  \"contractType\" : \"A\",  \"contractId\" : 0,  \"customerId\" : 6,  \"creationDate\" : \"2000-01-23\",  \"fileId\" : 1,  \"expirationDate\" : \"2000-01-23\"}, {  \"customerLabel\" : \"customerLabel\",  \"contractStatus\" : \"NEW\",  \"contractType\" : \"A\",  \"contractId\" : 0,  \"customerId\" : 6,  \"creationDate\" : \"2000-01-23\",  \"fileId\" : 1,  \"expirationDate\" : \"2000-01-23\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"customerLabel\" : \"customerLabel\",  \"contractStatus\" : \"NEW\",  \"contractType\" : \"A\",  \"contractId\" : 0,  \"customerId\" : 6,  \"creationDate\" : \"2000-01-23\",  \"expirationDate\" : \"2000-01-23\"}, {  \"customerLabel\" : \"customerLabel\",  \"contractStatus\" : \"NEW\",  \"contractType\" : \"A\",  \"contractId\" : 0,  \"customerId\" : 6,  \"creationDate\" : \"2000-01-23\",  \"expirationDate\" : \"2000-01-23\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,18 +1,13 @@
-package cz.vse.chan01.mi.api.document;
+package cz.vse.chan01.mi.api.document.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import cz.vse.chan01.mi.api.document.DocumentServiceImpl;
 
 @Document
 public class DocumentEntity {
@@ -20,20 +15,14 @@ public class DocumentEntity {
 	@Id
 	private String id;
 
+	private Long caseId;
+
 	private String name;
 
 	private String documentStatus;
 
-	private String contractType;
-
-	//@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	//@JsonSerialize(using = LocalDateTimeSerializer.class)
-	//@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDate creationDate;
 
-	//@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	//@JsonSerialize(using = LocalDateTimeSerializer.class)
-	//@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDate archivationDate;
 
 	private List<VersionedDocumentEntity> versionedDocumentEntityList;
@@ -42,13 +31,13 @@ public class DocumentEntity {
 
 	}
 
-	public DocumentEntity(final String id, final String name, final String documentStatus, final String contractType,
+	public DocumentEntity(final String id, final String name, final String documentStatus, final Long caseId,
 		final LocalDate creationDate, final LocalDate archivationDate,
 		final List<VersionedDocumentEntity> versionedDocumentEntityList) {
 		this.id = id;
 		this.name = name;
 		this.documentStatus = documentStatus;
-		this.contractType = contractType;
+		this.caseId = caseId;
 		this.creationDate = creationDate;
 		this.archivationDate = archivationDate;
 		this.versionedDocumentEntityList = versionedDocumentEntityList;
@@ -78,12 +67,12 @@ public class DocumentEntity {
 		this.documentStatus = documentStatus;
 	}
 
-	public String getContractType() {
-		return contractType;
+	public Long getCaseId() {
+		return caseId;
 	}
 
-	public void setContractType(final String contractType) {
-		this.contractType = contractType;
+	public void setCaseId(final Long caseId) {
+		this.caseId = caseId;
 	}
 
 	public LocalDate getCreationDate() {
@@ -123,7 +112,7 @@ public class DocumentEntity {
 		return Objects.equals(getId(), that.getId()) &&
 			Objects.equals(getName(), that.getName()) &&
 			Objects.equals(getDocumentStatus(), that.getDocumentStatus()) &&
-			Objects.equals(getContractType(), that.getContractType()) &&
+			Objects.equals(getCaseId(), that.getCaseId()) &&
 			Objects.equals(getCreationDate(), that.getCreationDate()) &&
 			Objects.equals(getArchivationDate(), that.getArchivationDate()) &&
 			Objects.equals(getVersionedDocumentEntityList(), that.getVersionedDocumentEntityList());
@@ -132,7 +121,7 @@ public class DocumentEntity {
 	@Override
 	public int hashCode() {
 		return Objects
-			.hash(getId(), getName(), getDocumentStatus(), getContractType(), getCreationDate(), getArchivationDate(),
+			.hash(getId(), getName(), getDocumentStatus(), getCaseId(), getCreationDate(), getArchivationDate(),
 				getVersionedDocumentEntityList());
 	}
 
@@ -142,7 +131,7 @@ public class DocumentEntity {
 			"id='" + id + '\'' +
 			", name='" + name + '\'' +
 			", documentStatus='" + documentStatus + '\'' +
-			", contractType='" + contractType + '\'' +
+			", contractType='" + caseId + '\'' +
 			", creationDate=" + creationDate +
 			", archivationDate=" + archivationDate +
 			", versionedDocumentEntityList=" + versionedDocumentEntityList +
