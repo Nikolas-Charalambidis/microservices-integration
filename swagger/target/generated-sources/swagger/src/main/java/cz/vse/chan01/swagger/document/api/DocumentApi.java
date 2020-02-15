@@ -29,7 +29,7 @@ import javax.validation.constraints.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-12T23:30:08.529+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-15T23:56:14.296+01:00")
 
 @Api(value = "document", description = "the document API")
 public interface DocumentApi {
@@ -60,7 +60,7 @@ public interface DocumentApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"archivationDate\" : \"2000-01-23\",  \"versions\" : [ {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  }, {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  } ],  \"caseId\" : 0,  \"name\" : \"name\",  \"documentId\" : \"documentId\",  \"documentStatus\" : \"CREATED\",  \"creationDate\" : \"2000-01-23\"}", Document.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"archivationDate\" : \"2000-01-23\",  \"versions\" : [ {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  }, {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  } ],  \"caseId\" : 0,  \"customerId\" : 6,  \"name\" : \"name\",  \"documentId\" : \"documentId\",  \"documentStatus\" : \"CREATED\",  \"creationDate\" : \"2000-01-23\"}", Document.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -80,11 +80,11 @@ public interface DocumentApi {
     @RequestMapping(value = "/document",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Document>> documents() {
+    default ResponseEntity<List<Document>> documents(@ApiParam(value = "Find documents by caseId") @Valid @RequestParam(value = "caseId", required = false) Optional<Long> caseId,@ApiParam(value = "Find documents by customerId") @Valid @RequestParam(value = "customerId", required = false) Optional<Long> customerId) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"archivationDate\" : \"2000-01-23\",  \"versions\" : [ {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  }, {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  } ],  \"caseId\" : 0,  \"name\" : \"name\",  \"documentId\" : \"documentId\",  \"documentStatus\" : \"CREATED\",  \"creationDate\" : \"2000-01-23\"}, {  \"archivationDate\" : \"2000-01-23\",  \"versions\" : [ {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  }, {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  } ],  \"caseId\" : 0,  \"name\" : \"name\",  \"documentId\" : \"documentId\",  \"documentStatus\" : \"CREATED\",  \"creationDate\" : \"2000-01-23\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"archivationDate\" : \"2000-01-23\",  \"versions\" : [ {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  }, {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  } ],  \"caseId\" : 0,  \"customerId\" : 6,  \"name\" : \"name\",  \"documentId\" : \"documentId\",  \"documentStatus\" : \"CREATED\",  \"creationDate\" : \"2000-01-23\"}, {  \"archivationDate\" : \"2000-01-23\",  \"versions\" : [ {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  }, {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  } ],  \"caseId\" : 0,  \"customerId\" : 6,  \"name\" : \"name\",  \"documentId\" : \"documentId\",  \"documentStatus\" : \"CREATED\",  \"creationDate\" : \"2000-01-23\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

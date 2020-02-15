@@ -1,11 +1,18 @@
 package cz.vse.chan01.mi.api.document;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import cz.vse.chan01.mi.api.document.entity.DocumentEntity;
 
 @Repository
-interface DocumentRepository extends MongoRepository<DocumentEntity, String> {
+public interface DocumentRepository extends MongoRepository<DocumentEntity, String> {
 
+	List<DocumentEntity> findAllByCaseId(Long caseId);
+
+	List<DocumentEntity> findAllByCustomerId(Long customerId);
+
+	List<DocumentEntity> findAllByCaseIdAndCustomerId(Long caseId, Long customerId);
 }

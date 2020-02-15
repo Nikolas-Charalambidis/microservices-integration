@@ -23,22 +23,11 @@ HEALTHCHECK --interval=20s --timeout=3s --retries=20 \
 RUN apk --no-cache add curl && \
 	apk --no-cache add iptables
 
+RUN apk --no-cache add ca-certificates && \
+	wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
+RUN wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-2.29-r0.apk && \
+	wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-bin-2.29-r0.apk
+RUN apk add glibc-2.29-r0.apk glibc-bin-2.29-r0.apk
+
 COPY --from=jlink-image /opt/jdk-11-mini-runtime /opt/jdk-11-mini-runtime
-COPY ${BASE_DIRECTORY}/target/app.jar app.jar
-
-
-
-#FROM adoptopenjdk/openjdk11:alpine-jre
-#VOLUME /tmp
-#
-#ARG BASE_DIRECTORY
-#
-#ENTRYPOINT [ "sh", "-c", "java -Dserver.port=8080 -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=docker -jar /app.jar " ]
-#
-#HEALTHCHECK --interval=20s --timeout=3s --retries=20 \
-#	CMD curl --fail http://localhost:8080/actuator/health || exit 1
-#
-#RUN apk --no-cache add curl && \
-#	apk --no-cache add iptables
-#
-#COPY ${BASE_DIRECTORY}/target/*.jar app.jar
+COPY ${BASE_DIRECTORY}/target/*.jar app.jar

@@ -66,7 +66,7 @@ public class ContractServiceImpl implements ContractService {
 		contractEntity.setCustomerLabel(String.format("%s %s", customer.getName(), customer.getSurname()));
 		contractEntity.setContractStatus(ContractStatus.NEW);
 		final ContractEntity saved = this.contractJpaRepository.save(contractEntity);
-		this.documentService.createDocument(contract);
+		this.documentService.createDocument(modelMapper.map(saved, Contract.class));
 		return saved.getContractId();
 	}
 

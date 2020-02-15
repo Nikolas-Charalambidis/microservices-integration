@@ -31,6 +31,7 @@ public class DocumentEntityToDtoConverter implements Converter<DocumentEntity, D
 				.documentId(de.getId())
 				.name(de.getName())
 				.caseId(de.getCaseId())
+				.customerId(de.getCustomerId())
 				.documentStatus(DocumentStatusEnum.fromValue(de.getDocumentStatus()))
 				.archivationDate(de.getArchivationDate())
 				.creationDate(de.getCreationDate());

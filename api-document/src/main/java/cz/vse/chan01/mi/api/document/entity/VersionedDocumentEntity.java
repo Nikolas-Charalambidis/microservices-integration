@@ -3,21 +3,32 @@ package cz.vse.chan01.mi.api.document.entity;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
+@Entity
 public class VersionedDocumentEntity {
 
 	@Id
 	private String id;
 
+	@NotNull
 	private LocalDateTime date;
 
+	@NotBlank
+	@Pattern(regexp="^\\d+\\.\\d+\\.\\d+$")
 	private String version;
 
+	@NotBlank
 	private String format;
 
+	@NotBlank
 	private String content;
 
 	public VersionedDocumentEntity() {

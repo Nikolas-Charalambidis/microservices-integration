@@ -1,4 +1,4 @@
-package cz.vse.chan01.mi.api.contract;
+package cz.vse.chan01.mi.api.contract.h2;
 
 
 import javax.sql.DataSource;

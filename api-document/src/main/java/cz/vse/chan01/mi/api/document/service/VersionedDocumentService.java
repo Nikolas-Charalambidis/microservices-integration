@@ -1,4 +1,4 @@
-package cz.vse.chan01.mi.api.document;
+package cz.vse.chan01.mi.api.document.service;
 
 import cz.vse.chan01.swagger.document.model.VersionedDocument;
 

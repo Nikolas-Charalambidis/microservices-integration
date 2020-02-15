@@ -29,19 +29,18 @@ public class DocumentDtoToEntityConverter implements Converter<Document, Documen
 			final Document document = mappingContext.getSource();
 			final DocumentEntity dest = new DocumentEntity(
 				document.getDocumentId(),
+				document.getCaseId(),
+				document.getCustomerId(),
 				document.getName(),
 				document.getDocumentStatus() == null ? null : document.getDocumentStatus().name(),
-				document.getCaseId(),
 				document.getArchivationDate(),
 				document.getCreationDate(),
 				new ArrayList<>()
 			);
 			if (document.getVersions() != null) {
 				Type listType = new TypeToken<List<VersionedDocumentEntity>>() {}.getType();
-				System.out.println("CONVERT: " + document.getVersions());
 				List<VersionedDocumentEntity> items = modelMapper.map(document.getVersions(), listType);
 				dest.setVersionedDocumentEntityList(items);
-				System.out.println("CONVERTED: " + dest.getVersionedDocumentEntityList());
 			}
 
 			return dest;

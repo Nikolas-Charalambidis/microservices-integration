@@ -1,13 +1,13 @@
-package cz.vse.chan01.mi.api.document;
-
-import javax.persistence.EntityNotFoundException;
+package cz.vse.chan01.mi.api.document.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cz.vse.chan01.mi.api.document.DocumentRepository;
 import cz.vse.chan01.mi.api.document.entity.DocumentEntity;
 import cz.vse.chan01.mi.api.document.entity.DocumentExistsException;
+import cz.vse.chan01.mi.api.document.entity.DocumentNotFoundException;
 import cz.vse.chan01.mi.api.document.entity.VersionedDocumentEntity;
 import cz.vse.chan01.swagger.document.model.VersionedDocument;
 
@@ -37,7 +37,7 @@ public class VersionedDocumentServiceImpl implements VersionedDocumentService {
 			.stream()
 			.filter(vs -> vs.getVersionedDocumentId().equals(versionedDocumentId))
 			.findFirst()
-			.orElseThrow(() -> new EntityNotFoundException(
+			.orElseThrow(() -> new DocumentNotFoundException(
 				String.format("Versioned document {id: %s} of document {id: %s} not found", versionedDocumentId, documentId)));
 	}
 
@@ -47,13 +47,16 @@ public class VersionedDocumentServiceImpl implements VersionedDocumentService {
 
 		final DocumentEntity documentEntity = this.documentRepository
 			.findById(documentId)
-			.orElseThrow(() -> new EntityNotFoundException(String.format("Document {id: %s} not found", documentId)));
+			.orElseThrow(() -> new DocumentNotFoundException(String.format("Document {id: %s} not found", documentId)));
 		final VersionedDocumentEntity versionedDocumentEntity = this.modelMapper
 			.map(versionedDocument, VersionedDocumentEntity.class);
-		//documentEntity.getVersionedDocumentEntityList().stream().filter(vde -> vde.getId().equals(versionedDocument.))
-
-			// TODO ID GENERATION
-			// TODO VERSION VALIDATION?
+		documentEntity.getVersionedDocumentEntityList().stream()
+			.filter(vde -> vde.getVersion().equals(versionedDocumentEntity.getVersion()))
+			.findFirst()
+			.ifPresent(vde -> {
+				throw new DocumentExistsException(
+					String.format("The versioned document with the same version {%s} already exists", vde.getVersion()));
+			});
 		versionedDocument.setVersionedDocumentId(String.format("%s_%s", documentEntity.getId(), versionedDocument.getVersion()));
 		documentEntity.getVersionedDocumentEntityList().add(versionedDocumentEntity);
 		this.documentRepository.save(documentEntity);

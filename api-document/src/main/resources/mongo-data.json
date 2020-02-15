@@ -4,6 +4,7 @@
 		"name": "BOB FARS: C",
 		"documentStatus": "CREATED",
 		"caseId": "1",
+		"customerId": "2",
 		"creationDate": "2016-05-11T17:32:20.897",
 		"versionedDocumentEntityList": [
 			{
@@ -19,22 +20,6 @@
 				"version": "1.0.1",
 				"format": "PDF",
 				"content": "JVBERi0xLjUKJYCBgo2=="
-			}
-		]
-	},
-	{
-		"id": "2_E_2",
-		"name": "BOB FARS: E",
-		"documentStatus": "CREATED",
-		"caseId": "2",
-		"creationDate": "2016-05-11T17:32:20.897",
-		"versionedDocumentEntityList": [
-			{
-				"id": "2_E_2_1.0.0",
-				"date": "2016-05-11T17:32:20.897",
-				"version": "1.0.0",
-				"format": "PDF",
-				"content": "JVBERi0xLjUKJYCBgo3=="
 			}
 		]
 	}

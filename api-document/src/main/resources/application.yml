@@ -1,11 +1,14 @@
 spring:
   application:
     name: api-document
-  #rabbitmq:
-  #  host: localhost
-  #  port: 5672
-  #  password: guest
-  #  username: guest
+  rabbitmq:
+    host: localhost
+    port: 5672
+    password: guest
+    username: guest
+    listener:
+      simple:
+        acknowledge-mode: manual
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration

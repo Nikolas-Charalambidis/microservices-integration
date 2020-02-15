@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
+import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,9 +16,11 @@ import javax.validation.constraints.*;
  * VersionedDocument
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-12T23:30:08.529+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-15T23:56:14.296+01:00")
 
-public class VersionedDocument   {
+public class VersionedDocument  implements Serializable {
+  private static final long serialVersionUID = 1L;
+
   @JsonProperty("versionedDocumentId")
   private String versionedDocumentId = null;
 
@@ -77,7 +80,7 @@ public class VersionedDocument   {
    * Get versionedDocumentId
    * @return versionedDocumentId
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(readOnly = true, value = "")
 
 
   public String getVersionedDocumentId() {

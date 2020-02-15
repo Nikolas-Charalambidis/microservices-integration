@@ -1,7 +1,6 @@
 spring:
   application:
     name: api-contract
-    
   datasource:
     url: jdbc:h2:mem:customers;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
     driverClassName: org.h2.Driver
@@ -23,6 +22,11 @@ spring:
     port: 5672
     password: guest
     username: guest
+    
+document-service:
+  routing-key:
+    contract: contract
+    document: document
 
 feign:
   hystrix:

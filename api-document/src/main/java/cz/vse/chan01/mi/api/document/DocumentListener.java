@@ -1,44 +1,63 @@
 package cz.vse.chan01.mi.api.document;
 
 import java.io.IOException;
-import java.util.Random;
+import java.util.List;
+import java.util.Optional;
 
-import org.springframework.amqp.core.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.core.env.Environment;
 import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StopWatch;
 
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBObject;
 import com.rabbitmq.client.Channel;
 
+import cz.vse.chan01.mi.api.document.service.DocumentService;
 import cz.vse.chan01.swagger.contract.model.Contract;
 import cz.vse.chan01.swagger.document.model.Document;
 
 @Component
 public class DocumentListener {
 
-	private final Environment environment;
+	private static final Logger LOGGER = LoggerFactory.getLogger(DocumentListener.class);
 
 	private final DocumentService documentService;
 
-	public DocumentListener(final Environment environment,
-		final DocumentService documentService) {
-		this.environment = environment;
+	public DocumentListener(final DocumentService documentService) {
 		this.documentService = documentService;
 	}
 
-	@RabbitListener(queues = "file-queue.post")
-	public void createFile(Contract contract) {
-		System.out.println(" [x] Received request for " + contract);
-		this.documentService.document(contract);
+	@RabbitListener(queues = "document-queue.contract")
+	public Document createDocument(
+		Contract contract,
+		Channel channel,
+		@Header(AmqpHeaders.DELIVERY_TAG) long tag,
+		@Header(AmqpHeaders.RECEIVED_EXCHANGE) String exchange,
+		@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey,
+		@Header(AmqpHeaders.CORRELATION_ID) String correlationId) throws IOException
+	{
+		LOGGER.info(String.format("[%s] Received message of %s class from exchange %s using routing key %s, tag: %s",
+			correlationId, contract.getClass().getName(), exchange, routingKey, tag));
+		channel.basicAck(tag, false);
+		return this.documentService.document(contract);
 	}
 
-
+	@RabbitListener(queues = "document-queue.document")
+	public List<Document> readDocument(
+		Long id,
+		Channel channel,
+		@Header(AmqpHeaders.DELIVERY_TAG) long tag,
+		@Header(AmqpHeaders.RECEIVED_EXCHANGE) String exchange,
+		@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey,
+		@Header(AmqpHeaders.CORRELATION_ID) String correlationId) throws IOException
+	{
+		LOGGER.info(String.format("[%s] Received message of %s class from exchange %s using routing key %s, tag: %s",
+			correlationId, id.getClass().getName(), exchange, routingKey, tag));
+		channel.basicAck(tag, false);
+		return this.documentService.documents(Optional.empty(), Optional.of(id));
+	}
+	/*
 	@RabbitListener(queues = "file-queue.post")
 	public Document createFile(
 		@Payload Contract contract,
@@ -71,5 +90,5 @@ public class DocumentListener {
 		System.out.println(" [localhost:" + environment.getProperty("server.port") +"][" + watch.getTotalTimeMillis() + "ms] CorrelationId: " + correlationId + " Done " + file);
 		return file;
 	}
-
+	*/
 }

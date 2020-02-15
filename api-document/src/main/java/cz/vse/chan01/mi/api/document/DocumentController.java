@@ -3,6 +3,7 @@ package cz.vse.chan01.mi.api.document;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import cz.vse.chan01.mi.api.document.service.DocumentService;
+import cz.vse.chan01.mi.api.document.service.VersionedDocumentService;
 import cz.vse.chan01.swagger.contract.model.Contract;
 import cz.vse.chan01.swagger.document.api.DocumentApi;
 import cz.vse.chan01.swagger.document.model.Document;
@@ -32,13 +35,13 @@ public class DocumentController implements DocumentApi {
 	}
 
 	@PostMapping("foo")
-	public ResponseEntity<String> d(@RequestBody Contract c) {
+	public ResponseEntity<Document> d(@RequestBody Contract c) {
 		return ResponseEntity.ok(this.documentService.document(c));
 	}
 
 	@Override
-	public ResponseEntity<List<Document>> documents() {
-		return ResponseEntity.ok(documentService.documents());
+	public ResponseEntity<List<Document>> documents(Optional<Long> caseId, Optional<Long> customerId) {
+		return ResponseEntity.ok(documentService.documents(caseId, customerId));
 	}
 
 	@Override

@@ -27,9 +27,6 @@ services:
   eureka-zuul:
     image: chan01.vse.cz/mi-eureka-zuul:1.0.0
     container_name: eureka-zuul
-  #  depends_on:
-  #    eureka-server:
-  #      condition: service_healthy
     restart: on-failure
     ports:
       - 8762:8080
@@ -41,7 +38,6 @@ services:
     restart: on-failure
     ports:
       - 8080:8080
-      -
   api-document-8090:
     image: chan01.vse.cz/mi-api-document:1.0.0
     container_name: api-document-8090

@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -18,14 +19,19 @@ import javax.validation.constraints.*;
  * Document
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-12T23:30:08.529+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-15T23:56:14.296+01:00")
 
-public class Document   {
+public class Document  implements Serializable {
+  private static final long serialVersionUID = 1L;
+
   @JsonProperty("documentId")
   private String documentId = null;
 
   @JsonProperty("caseId")
   private Long caseId = null;
+
+  @JsonProperty("customerId")
+  private Long customerId = null;
 
   @JsonProperty("name")
   private String name = null;
@@ -83,7 +89,7 @@ public class Document   {
    * Get documentId
    * @return documentId
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(readOnly = true, value = "")
 
 
   public String getDocumentId() {
@@ -112,6 +118,26 @@ public class Document   {
 
   public void setCaseId(Long caseId) {
     this.caseId = caseId;
+  }
+
+  public Document customerId(Long customerId) {
+    this.customerId = customerId;
+    return this;
+  }
+
+  /**
+   * Get customerId
+   * @return customerId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getCustomerId() {
+    return customerId;
+  }
+
+  public void setCustomerId(Long customerId) {
+    this.customerId = customerId;
   }
 
   public Document name(String name) {
@@ -237,6 +263,7 @@ public class Document   {
     Document document = (Document) o;
     return Objects.equals(this.documentId, document.documentId) &&
         Objects.equals(this.caseId, document.caseId) &&
+        Objects.equals(this.customerId, document.customerId) &&
         Objects.equals(this.name, document.name) &&
         Objects.equals(this.versions, document.versions) &&
         Objects.equals(this.documentStatus, document.documentStatus) &&
@@ -246,7 +273,7 @@ public class Document   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(documentId, caseId, name, versions, documentStatus, creationDate, archivationDate);
+    return Objects.hash(documentId, caseId, customerId, name, versions, documentStatus, creationDate, archivationDate);
   }
 
   @Override
@@ -256,6 +283,7 @@ public class Document   {
     
     sb.append("    documentId: ").append(toIndentedString(documentId)).append("\n");
     sb.append("    caseId: ").append(toIndentedString(caseId)).append("\n");
+    sb.append("    customerId: ").append(toIndentedString(customerId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    versions: ").append(toIndentedString(versions)).append("\n");
     sb.append("    documentStatus: ").append(toIndentedString(documentStatus)).append("\n");

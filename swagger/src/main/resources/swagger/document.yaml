@@ -15,6 +15,17 @@ paths:
       operationId: documents
       produces:
         - application/json
+      parameters:
+        - in: query
+          type: integer
+          format: int64
+          name: caseId
+          description: Find documents by caseId
+        - in: query
+          type: integer
+          format: int64
+          name: customerId
+          description: Find documents by customerId
       responses:
         '200':
           description: documents found
@@ -125,7 +136,11 @@ definitions:
     properties:
       documentId:
         type: string
+        readOnly: true
       caseId:
+        type: integer
+        format: int64
+      customerId:
         type: integer
         format: int64
       name:
@@ -148,6 +163,7 @@ definitions:
     properties:
       versionedDocumentId:
         type: string
+        readOnly: true
       date:
         type: string
         format: date-time
