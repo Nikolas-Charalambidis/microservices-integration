@@ -2,6 +2,9 @@ package cz.vse.chan01.mi.api.contract.service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +63,7 @@ public class DocumentServiceImpl implements DocumentService {
 			@Override
 			public void onSuccess(Document document) {
 				LOGGER.info(String.format("[%s] Received message of %s class from exchange: %s, message: %s",
-					uuid, document.getClass().getName(), exchange.getName(), routingKeyContract, document));
+					uuid, document.getClass().getName(), exchange.getName(), document));
 			}
 		});
 	}
@@ -69,7 +72,12 @@ public class DocumentServiceImpl implements DocumentService {
 		final UUID uuid = UUID.randomUUID();
 		LOGGER.info(String.format("[%s] Sending message of %s class to exchange: %s using routing key: %s, message: %s",
 			uuid, customerId.getClass().getName(), exchange.getName(), routingKeyDocument, customerId));
-		return (List<Document>) rabbitTemplate.convertSendAndReceive(exchange.getName(), routingKeyDocument, customerId,
-			new UuidMessagePostProcessor(uuid));
+		try {
+			return (List<Document>) asyncRabbitTemplate.convertSendAndReceive(exchange.getName(), routingKeyDocument, customerId,
+				new UuidMessagePostProcessor(uuid)).get(5L, TimeUnit.SECONDS);
+		} catch (InterruptedException | TimeoutException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
