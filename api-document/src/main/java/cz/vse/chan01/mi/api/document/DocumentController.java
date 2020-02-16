@@ -34,11 +34,6 @@ public class DocumentController implements DocumentApi {
 		this.versionedDocumentService = versionedDocumentService;
 	}
 
-	@PostMapping("foo")
-	public ResponseEntity<Document> d(@RequestBody Contract c) {
-		return ResponseEntity.ok(this.documentService.document(c));
-	}
-
 	@Override
 	public ResponseEntity<List<Document>> documents(Optional<Long> caseId, Optional<Long> customerId) {
 		return ResponseEntity.ok(documentService.documents(caseId, customerId));

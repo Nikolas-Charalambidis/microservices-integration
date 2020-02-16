@@ -7,9 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,7 +15,6 @@ import cz.vse.chan01.mi.api.contract.service.ContractService;
 import cz.vse.chan01.mi.api.contract.service.DocumentServiceImpl;
 import cz.vse.chan01.swagger.contract.api.ContractApi;
 import cz.vse.chan01.swagger.contract.model.Contract;
-import cz.vse.chan01.swagger.document.model.Document;
 
 @RestController("/")
 public class ContractController implements ContractApi {
@@ -47,9 +44,9 @@ public class ContractController implements ContractApi {
 		return ResponseEntity.ok(this.contractService.contract(contractId));
 	}
 
-	@GetMapping("foo")
-	public ResponseEntity<List<Document>> documents(@RequestParam Long id) {
-		return ResponseEntity.ok(this.documentService.findCustomerDocuments(id));
+	@Override
+	public ResponseEntity<List<cz.vse.chan01.swagger.contract.model.Document>> documentByContractId(Long contractId) {
+		return ResponseEntity.ok(this.documentService.documentsByCustomerId(contractId));
 	}
 
 	@Override

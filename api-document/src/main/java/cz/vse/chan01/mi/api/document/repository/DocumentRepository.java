@@ -1,4 +1,4 @@
-package cz.vse.chan01.mi.api.document;
+package cz.vse.chan01.mi.api.document.repository;
 
 import java.util.List;
 

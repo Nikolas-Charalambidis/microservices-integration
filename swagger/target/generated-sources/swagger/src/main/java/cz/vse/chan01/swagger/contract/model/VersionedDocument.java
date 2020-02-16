@@ -1,4 +1,4 @@
-package cz.vse.chan01.swagger.document.model;
+package cz.vse.chan01.swagger.contract.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * VersionedDocument
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-16T23:38:49.953+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-16T23:38:49.717+01:00")
 
 public class VersionedDocument  implements Serializable {
   private static final long serialVersionUID = 1L;

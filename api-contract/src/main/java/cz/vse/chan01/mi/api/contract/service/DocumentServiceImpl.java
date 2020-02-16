@@ -1,18 +1,20 @@
 package cz.vse.chan01.mi.api.contract.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
@@ -31,28 +33,35 @@ public class DocumentServiceImpl implements DocumentService {
 
 	private final DirectExchange exchange;
 
+	private final ModelMapper modelMapper;
+
 	@Value("${document-service.routing-key.contract}")
-	private String routingKeyContract;
+	private String keyContract;
 
 	@Value("${document-service.routing-key.document}")
-	private String routingKeyDocument;
+	private String keyDocument;
 
-	public DocumentServiceImpl(final RabbitTemplate rabbitTemplate,
-		final AsyncRabbitTemplate asyncRabbitTemplate, final DirectExchange exchange) {
+	public DocumentServiceImpl(
+		final RabbitTemplate rabbitTemplate,
+		final AsyncRabbitTemplate asyncRabbitTemplate,
+		final DirectExchange exchange,
+		final ModelMapper modelMapper
+	) {
 		this.rabbitTemplate = rabbitTemplate;
 		this.asyncRabbitTemplate = asyncRabbitTemplate;
 		this.exchange = exchange;
+		this.modelMapper = modelMapper;
 	}
 
 	@Override
-	public void createDocument(final Contract contract) {
+	public void document(final Contract contract) {
 		final UUID uuid = UUID.randomUUID();
 		LOGGER.info(String.format("[%s] Sending message of %s class to exchange: %s using routing key: %s",
-			uuid, contract.getClass().getName(), exchange.getName(), routingKeyContract));
+			uuid, contract.getClass().getName(), exchange.getName(), keyContract));
 		//rabbitTemplate.convertAndSend(exchange.getName(), routingKeyContract, contract, new UuidMessagePostProcessor(uuid));
 
 		AsyncRabbitTemplate.RabbitConverterFuture<Document> future =
-			asyncRabbitTemplate.convertSendAndReceive(exchange.getName(), routingKeyContract, contract, new UuidMessagePostProcessor(uuid));
+			asyncRabbitTemplate.convertSendAndReceive(exchange.getName(), keyContract, contract, new UuidMessagePostProcessor(uuid));
 
 		future.addCallback(new ListenableFutureCallback<>() {
 			@Override
@@ -68,16 +77,25 @@ public class DocumentServiceImpl implements DocumentService {
 		});
 	}
 
-	public List<Document> findCustomerDocuments(final Long customerId) {
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<cz.vse.chan01.swagger.contract.model.Document> documentsByCustomerId(final Long customerId) {
 		final UUID uuid = UUID.randomUUID();
 		LOGGER.info(String.format("[%s] Sending message of %s class to exchange: %s using routing key: %s, message: %s",
-			uuid, customerId.getClass().getName(), exchange.getName(), routingKeyDocument, customerId));
+			uuid, customerId.getClass().getName(), exchange.getName(), keyDocument, customerId));
 		try {
-			return (List<Document>) asyncRabbitTemplate.convertSendAndReceive(exchange.getName(), routingKeyDocument, customerId,
-				new UuidMessagePostProcessor(uuid)).get(5L, TimeUnit.SECONDS);
-		} catch (InterruptedException | TimeoutException | ExecutionException e) {
-			e.printStackTrace();
+			return ((List<Document>) asyncRabbitTemplate
+				.convertSendAndReceive(exchange.getName(), keyDocument, customerId, new UuidMessagePostProcessor(uuid))
+				.get(5L, TimeUnit.SECONDS))
+				.stream()
+				.map(d -> modelMapper.map(d, cz.vse.chan01.swagger.contract.model.Document.class))
+				.collect(Collectors.toList());
+		} catch (InterruptedException | ExecutionException e) {
+			LOGGER.error("Thread inerrupted", e);
+			Thread.currentThread().interrupt();
+		} catch (TimeoutException e) {
+			LOGGER.error("The request timeouted", e);
 		}
-		return null;
+		return Collections.emptyList();
 	}
 }

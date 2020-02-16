@@ -14,16 +14,14 @@ import javax.persistence.EntityNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import cz.vse.chan01.mi.api.document.DocumentRepository;
+import cz.vse.chan01.mi.api.document.repository.DocumentRepository;
 import cz.vse.chan01.mi.api.document.entity.DocumentEntity;
 import cz.vse.chan01.mi.api.document.entity.DocumentExistsException;
 import cz.vse.chan01.mi.api.document.entity.VersionedDocumentEntity;
@@ -37,18 +35,14 @@ public class DocumentServiceImpl implements DocumentService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DocumentServiceImpl.class);
 
-	private final ResourceLoader resourceLoader;
-
 	private final DocumentRepository documentRepository;
 
 	private final DocumentModelMapper documentModelMapper;
 
 	public DocumentServiceImpl(
 		final DocumentRepository documentRepository,
-		@Qualifier("webApplicationContext") final ResourceLoader resourceLoader,
 		final DocumentModelMapper documentModelMapper
 	) {
-		this.resourceLoader = resourceLoader;
 		this.documentRepository = documentRepository;
 		this.documentModelMapper = documentModelMapper;
 	}
@@ -123,9 +117,6 @@ public class DocumentServiceImpl implements DocumentService {
 	@PostConstruct
 	void postConstruct() {
 		try {
-			//final Resource resource = resourceLoader.getResource("classpath*:mongo-data.json");
-			//final File file = resource.getFile();
-
 			final ClassPathResource classPathResource = new ClassPathResource("mongo-data.json");
 			final byte[] binaryData = FileCopyUtils.copyToByteArray(classPathResource.getInputStream());
 			final String jsonString = new String(binaryData, StandardCharsets.UTF_8);

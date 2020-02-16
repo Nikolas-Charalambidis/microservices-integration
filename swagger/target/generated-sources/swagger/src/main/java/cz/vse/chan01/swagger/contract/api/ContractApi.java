@@ -6,6 +6,7 @@
 package cz.vse.chan01.swagger.contract.api;
 
 import cz.vse.chan01.swagger.contract.model.Contract;
+import cz.vse.chan01.swagger.contract.model.Document;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ import javax.validation.constraints.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-15T23:56:14.140+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-16T23:38:49.717+01:00")
 
 @Api(value = "contract", description = "the contract API")
 public interface ContractApi {
@@ -84,6 +85,30 @@ public interface ContractApi {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
                     return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"customerLabel\" : \"customerLabel\",  \"contractStatus\" : \"NEW\",  \"contractType\" : \"A\",  \"contractId\" : 0,  \"customerId\" : 6,  \"creationDate\" : \"2000-01-23\",  \"expirationDate\" : \"2000-01-23\"}, {  \"customerLabel\" : \"customerLabel\",  \"contractStatus\" : \"NEW\",  \"contractType\" : \"A\",  \"contractId\" : 0,  \"customerId\" : 6,  \"creationDate\" : \"2000-01-23\",  \"expirationDate\" : \"2000-01-23\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default ContractApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Find all documents of the contract", nickname = "documentByContractId", notes = "Returns list of ocuments of the contract", response = Document.class, responseContainer = "List", tags={ "contract", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "documents of the contract found", response = Document.class, responseContainer = "List"),
+        @ApiResponse(code = 404, message = "No documents of the contract found") })
+    @RequestMapping(value = "/contract/{contractId}/document",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<List<Document>> documentByContractId(@ApiParam(value = "ID of contract",required=true) @PathVariable("contractId") Long contractId) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"archivationDate\" : \"2000-01-23\",  \"versions\" : [ {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  }, {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  } ],  \"caseId\" : 0,  \"customerId\" : 6,  \"name\" : \"name\",  \"documentId\" : \"documentId\",  \"documentStatus\" : \"CREATED\",  \"creationDate\" : \"2000-01-23\"}, {  \"archivationDate\" : \"2000-01-23\",  \"versions\" : [ {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  }, {    \"date\" : \"2000-01-23T04:56:07.000+00:00\",    \"format\" : \"PDF\",    \"version\" : \"version\",    \"versionedDocumentId\" : \"versionedDocumentId\",    \"content\" : \"content\"  } ],  \"caseId\" : 0,  \"customerId\" : 6,  \"name\" : \"name\",  \"documentId\" : \"documentId\",  \"documentStatus\" : \"CREATED\",  \"creationDate\" : \"2000-01-23\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

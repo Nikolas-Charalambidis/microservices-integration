@@ -45,17 +45,17 @@ public class DocumentListener {
 
 	@RabbitListener(queues = "document-queue.document")
 	public List<Document> readDocument(
-		Long id,
+		Long caseid,
 		Channel channel,
 		@Header(AmqpHeaders.DELIVERY_TAG) long tag,
 		@Header(AmqpHeaders.RECEIVED_EXCHANGE) String exchange,
 		@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey,
 		@Header(AmqpHeaders.CORRELATION_ID) String correlationId) throws IOException
 	{
-		LOGGER.info(String.format("[%s] Received message of %s class from exchange %s using routing key %s, tag: %s",
-			correlationId, id.getClass().getName(), exchange, routingKey, tag));
+		LOGGER.info(String.format("[%s] Received message of %s class from exchange %s using routing key %s, tag: %s, message: %s",
+			correlationId, caseid.getClass().getName(), exchange, routingKey, tag, caseid));
 		channel.basicAck(tag, false);
-		return this.documentService.documents(Optional.empty(), Optional.of(id));
+		return this.documentService.documents(Optional.of(caseid), Optional.empty());
 	}
 	/*
 	@RabbitListener(queues = "file-queue.post")

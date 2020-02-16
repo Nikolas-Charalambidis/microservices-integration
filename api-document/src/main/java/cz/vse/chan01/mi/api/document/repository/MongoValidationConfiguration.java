@@ -1,4 +1,4 @@
-package cz.vse.chan01.mi.api.document;
+package cz.vse.chan01.mi.api.document.repository;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

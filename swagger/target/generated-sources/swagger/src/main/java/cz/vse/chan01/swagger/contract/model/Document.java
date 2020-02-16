@@ -1,10 +1,10 @@
-package cz.vse.chan01.swagger.document.model;
+package cz.vse.chan01.swagger.contract.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import cz.vse.chan01.swagger.document.model.VersionedDocument;
+import cz.vse.chan01.swagger.contract.model.VersionedDocument;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  * Document
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-16T23:38:49.953+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-16T23:38:49.717+01:00")
 
 public class Document  implements Serializable {
   private static final long serialVersionUID = 1L;

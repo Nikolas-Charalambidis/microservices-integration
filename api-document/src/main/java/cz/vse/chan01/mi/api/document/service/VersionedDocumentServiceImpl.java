@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cz.vse.chan01.mi.api.document.DocumentRepository;
+import cz.vse.chan01.mi.api.document.repository.DocumentRepository;
 import cz.vse.chan01.mi.api.document.entity.DocumentEntity;
 import cz.vse.chan01.mi.api.document.entity.DocumentExistsException;
 import cz.vse.chan01.mi.api.document.entity.DocumentNotFoundException;

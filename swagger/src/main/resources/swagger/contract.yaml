@@ -68,6 +68,31 @@ paths:
           description: Invalid ID supplied
         '404':
           description: contract not found
+  /contract/{contractId}/document:
+    get:
+      tags:
+        - contract
+      summary: Find all documents of the contract
+      description: Returns list of ocuments of the contract
+      operationId: documentByContractId
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: contractId
+          description: ID of contract
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: documents of the contract found
+          schema:
+            type: array
+            items:
+              "$ref": "document.yaml#/definitions/Document"
+        '404':
+          description: No documents of the contract found
 definitions:
   Contract:
     type: object
