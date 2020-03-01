@@ -34,7 +34,7 @@ public class RabbitMQConfiguration {
 	@Bean
 	public Queue contractQueue() {
 		return QueueBuilder.durable("document-queue.contract")
-			.withArgument("x-dead-letter-exchange", "dead-letter-exchange")
+			.withArgument("x-dead-letter-exchange", "dead-letter.exchange")
 			.withArgument("x-dead-letter-routing-key", "dead-letter")
 			.build();
 	}
@@ -42,7 +42,7 @@ public class RabbitMQConfiguration {
 	@Bean
 	public Queue documentQueue() {
 		return QueueBuilder.durable("document-queue.document")
-			.withArgument("x-dead-letter-exchange", "dead-letter-exchange")
+			.withArgument("x-dead-letter-exchange", "dead-letter.exchange")
 			.withArgument("x-dead-letter-routing-key", "dead-letter")
 			.build();
 	}
@@ -61,7 +61,7 @@ public class RabbitMQConfiguration {
 
 	@Bean
 	DirectExchange deadLetterExchange() {
-		return new DirectExchange("dead-letter-exchange");
+		return new DirectExchange("dead-letter.exchange");
 	}
 
 	@Bean

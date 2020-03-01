@@ -12,7 +12,6 @@
 	<modules>
 		<module>swagger</module>
 		<module>eureka-server</module>
-		<module>eureka-auth</module>
 		<module>eureka-zuul</module>
 		<module>eureka-sidecar-redis</module>
 		<module>eureka-sidecar-rabbitmq</module>

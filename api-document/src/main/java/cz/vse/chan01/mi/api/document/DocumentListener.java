@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -38,12 +39,11 @@ public class DocumentListener {
 		@Header(AmqpHeaders.CORRELATION_ID) String correlationId) throws IOException
 	{
 
-		channel.basicAck(tag, false);
 		LOGGER.info("[{}] Requested creation of new Document from Contract with id={}", correlationId, contract.getContractId());
-		throw new IOException(String.format("[%s] Trying to create an invalid document from Contract with with id=%s", correlationId, contract.getContractId()));
-		//final Document document =  this.documentService.document(contract);
-		//LOGGER.info("[{}] Created a new Document with id={}", correlationId, document.getDocumentId());
-		//return document;
+		final Document document =  this.documentService.document(contract);
+		channel.basicAck(tag, false);
+		LOGGER.info("[{}] Created a new Document with id={}", correlationId, document.getDocumentId());
+		return document;
 	}
 
 	@RabbitListener(queues = "document-queue.document")
@@ -55,9 +55,9 @@ public class DocumentListener {
 		@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey,
 		@Header(AmqpHeaders.CORRELATION_ID) String correlationId) throws IOException
 	{
-		channel.basicAck(tag, false);
 		LOGGER.info("[{}] Requested List<Document> belonging to Contract with id={}", correlationId, contractId);
 		List<Document> documents =  this.documentService.documents(Optional.of(contractId), Optional.empty());
+		channel.basicAck(tag, false);
 		LOGGER.info("[{}] Returning {} entities", correlationId, documents.size());
 		return documents;
 	}

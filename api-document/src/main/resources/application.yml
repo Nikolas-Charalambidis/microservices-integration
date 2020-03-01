@@ -9,7 +9,7 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual
-        #default-requeue-rejected: false
+        default-requeue-rejected: false
         retry:
           enabled: true
           initial-interval: 1s
