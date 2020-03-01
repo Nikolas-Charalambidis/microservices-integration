@@ -1,5 +1,5 @@
 @startuml
-"System" -> "Contract API": POST /contract
+[-> "Contract API": POST /contract
 note left of "Contract API"
 {
     "customerId": 1,
@@ -22,6 +22,6 @@ end note
 |||
 deactivate "Customer API"
 "Contract API" -> "Contract API": Database transaction
-"Contract API" --> System: 201 Created
+[<-- "Contract API": 201 Created
 deactivate "Contract API"
 @enduml

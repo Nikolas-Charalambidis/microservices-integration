@@ -33,14 +33,16 @@ public class CustomerServiceImpl implements CustomerService {
 		final List<Customer> customers =  this.customerJpaRepository.findAll().stream()
 			.map(ce -> modelMapper.map(ce, Customer.class))
 			.collect(Collectors.toList());
-		LOGGER.info("Found {} customers", customers.size());
+		LOGGER.info("Returning List<Customer> with {} entities", customers.size());
 		return customers;
 	}
 
 	@Override
 	public Customer customer(final long customerId) {
-		return this.customerJpaRepository.findById(customerId)
+		final Customer customer = this.customerJpaRepository.findById(customerId)
 			.map(ce -> modelMapper.map(ce, Customer.class))
 			.orElseThrow(() -> new EntityNotFoundException(String.format("Customer {id: %s} not found", customerId)));
+		LOGGER.info("Returning Customer with id={}", customer.getCustomerId());
+		return customer;
 	}
 }

@@ -1,0 +1,21 @@
+@startuml
+[-> "Contract API": POST /contract
+activate "Contract API"
+"Contract API" -> "Direct exchange": Routing Key: contractRoutingKey
+box "RabbitMQ"
+    participant "Anonymous queue"
+    participant "Direct exchange"
+    participant "Queue"
+end box
+activate "Direct exchange"
+"Direct exchange" --> "Contract API": Confirmed
+[<-- "Contract API": 201 Created
+deactivate "Contract API"
+activate "Queue"
+"Direct exchange" --> "Queue"
+deactivate "Direct exchange"
+... waiting in the queue ...
+"Queue" --> "Document API":  document-queue.contract
+"Document API" --> "Queue":  Acknowledged
+deactivate "Queue"
+@enduml

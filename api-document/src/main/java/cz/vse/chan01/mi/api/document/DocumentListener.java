@@ -37,58 +37,28 @@ public class DocumentListener {
 		@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey,
 		@Header(AmqpHeaders.CORRELATION_ID) String correlationId) throws IOException
 	{
-		LOGGER.info(String.format("[%s] Received message of %s class from exchange %s using routing key %s, tag: %s",
-			correlationId, contract.getClass().getName(), exchange, routingKey, tag));
+
 		channel.basicAck(tag, false);
-		return this.documentService.document(contract);
+		LOGGER.info("[{}] Requested creation of new Document from Contract with id={}", correlationId, contract.getContractId());
+		throw new IOException(String.format("[%s] Trying to create an invalid document from Contract with with id=%s", correlationId, contract.getContractId()));
+		//final Document document =  this.documentService.document(contract);
+		//LOGGER.info("[{}] Created a new Document with id={}", correlationId, document.getDocumentId());
+		//return document;
 	}
 
 	@RabbitListener(queues = "document-queue.document")
 	public List<Document> readDocument(
-		Long caseid,
+		Long contractId,
 		Channel channel,
 		@Header(AmqpHeaders.DELIVERY_TAG) long tag,
 		@Header(AmqpHeaders.RECEIVED_EXCHANGE) String exchange,
 		@Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey,
 		@Header(AmqpHeaders.CORRELATION_ID) String correlationId) throws IOException
 	{
-		LOGGER.info(String.format("[%s] Received message of %s class from exchange %s using routing key %s, tag: %s, message: %s",
-			correlationId, caseid.getClass().getName(), exchange, routingKey, tag, caseid));
 		channel.basicAck(tag, false);
-		return this.documentService.documents(Optional.of(caseid), Optional.empty());
+		LOGGER.info("[{}] Requested List<Document> belonging to Contract with id={}", correlationId, contractId);
+		List<Document> documents =  this.documentService.documents(Optional.of(contractId), Optional.empty());
+		LOGGER.info("[{}] Returning {} entities", correlationId, documents.size());
+		return documents;
 	}
-	/*
-	@RabbitListener(queues = "file-queue.post")
-	public Document createFile(
-		@Payload Contract contract,
-		@Header(AmqpHeaders.CHANNEL) Channel channel,
-		@Header(AmqpHeaders.DELIVERY_TAG) Long tag,
-		@Header(AmqpHeaders.CORRELATION_ID) String correlationId,
-		Message message
-	) throws InterruptedException, IOException {
-
-		System.out.println("Channel: " + channel.getChannelNumber() + " deliveryTag: " + tag + "=: " + message.getMessageProperties().getDeliveryTag());
-		StopWatch watch = new StopWatch();
-		watch.start();
-		System.out.println(" [localhost:" + environment.getProperty("server.port") +"] CorrelationId: " + correlationId +  " Received " + contract);
-		Random random = new Random();
-		Thread.sleep(5000 + random.nextInt(2000));
-
-		System.out.println(" [x] Received request for " + contract);
-		Document file = null;
-		System.out.println(" [.] Returned " + file);
-
-		try {
-			channel.basicAck(tag, false);
-			System.out.println("Acknowledged");
-		} catch (Exception e) {
-			channel.basicNack(tag, false, true);
-			System.out.println("NOT-Acknowledged");
-		}
-
-		watch.stop();
-		System.out.println(" [localhost:" + environment.getProperty("server.port") +"][" + watch.getTotalTimeMillis() + "ms] CorrelationId: " + correlationId + " Done " + file);
-		return file;
-	}
-	*/
 }

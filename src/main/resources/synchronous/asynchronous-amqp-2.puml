@@ -1,0 +1,25 @@
+@startuml
+[-> "Contract API": GET /contract/{contractId}/document
+activate "Contract API"
+"Contract API" -> "Direct exchange": Routing Key: documentRoutingKey
+box "RabbitMQ"
+    participant "Anonymous queue"
+    participant "Direct exchange"
+    participant "Queue"
+end box
+activate "Direct exchange"
+"Direct exchange" --> "Queue"
+activate "Queue"
+"Queue" --> "Document API":  document-queue.document
+"Document API" --> "Queue":  Acknowledged
+deactivate "Queue"
+"Document API" --> "Direct exchange":  AAA
+"Direct exchange" --> "Anonymous queue"
+deactivate "Direct exchange"
+activate "Anonymous queue"
+"Anonymous queue" ->  "Contract API"
+"Contract API" --> "Anonymous queue":  Acknowledged
+[<-- "Contract API": 200 OK
+deactivate "Anonymous queue"
+deactivate "Contract API"
+@enduml

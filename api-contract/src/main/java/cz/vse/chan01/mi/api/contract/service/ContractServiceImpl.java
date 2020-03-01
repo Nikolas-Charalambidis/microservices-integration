@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,6 +21,8 @@ import cz.vse.chan01.swagger.customer.model.Customer;
 
 @Service
 public class ContractServiceImpl implements ContractService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ContractServiceImpl.class);
 
 	private final ContractJpaRepository contractJpaRepository;
 
@@ -61,11 +65,13 @@ public class ContractServiceImpl implements ContractService {
 
 	@Override
 	public long contract(final Contract contract) {
+		LOGGER.info("Requested creation of new Contract");
 		final Customer customer = this.customerFeignClient.customer(contract.getCustomerId());
 		final ContractEntity contractEntity = this.modelMapper.map(contract, ContractEntity.class);
 		contractEntity.setCustomerLabel(String.format("%s %s", customer.getName(), customer.getSurname()));
 		contractEntity.setContractStatus(ContractStatus.NEW);
 		final ContractEntity saved = this.contractJpaRepository.save(contractEntity);
+		LOGGER.info("Created Contract with id={} for Customer id={}", saved.getContractId(), saved.getCustomerId());
 		this.documentService.document(modelMapper.map(saved, Contract.class));
 		return saved.getContractId();
 	}

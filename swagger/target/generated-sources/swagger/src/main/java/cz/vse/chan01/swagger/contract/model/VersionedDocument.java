@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * VersionedDocument
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-16T23:38:49.717+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-01T22:49:51.114+01:00")
 
 public class VersionedDocument  implements Serializable {
   private static final long serialVersionUID = 1L;

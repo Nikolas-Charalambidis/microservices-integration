@@ -82,6 +82,12 @@ public class DocumentServiceImpl implements DocumentService {
 				LOGGER.error(message);
 				throw new DocumentExistsException(message);});
 		final DocumentEntity documentEntity = this.documentModelMapper.map(document, DocumentEntity.class);
+		try {
+			// long operation simulation
+			Thread.sleep(10000L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		final DocumentEntity saved = this.documentRepository.save(documentEntity);
 		return saved.getId();
 	}
@@ -110,6 +116,12 @@ public class DocumentServiceImpl implements DocumentService {
 			Collections.singletonList(new VersionedDocumentEntity(
 				String.format("%s_%s", id, version), now, "1.0.0", "PDF",
 					"JVBERi0xLjUKJYCBgo==")));
+		try {
+			// long operation simulation
+			Thread.sleep(10000L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		final DocumentEntity saved = this.documentRepository.save(documentEntity);
 		return this.documentModelMapper.map(saved, Document.class);
 	}

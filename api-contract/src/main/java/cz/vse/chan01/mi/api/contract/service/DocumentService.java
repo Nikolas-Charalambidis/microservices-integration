@@ -9,5 +9,5 @@ public interface DocumentService {
 
 	void document(final Contract contract);
 
-	List<cz.vse.chan01.swagger.contract.model.Document> documentsByCustomerId(final Long customerId);
+	List<cz.vse.chan01.swagger.contract.model.Document> documentsByContractId(final Long contractId);
 }

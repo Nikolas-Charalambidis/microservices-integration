@@ -1,5 +1,10 @@
 package cz.vse.chan01.mi.api.document.service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.IntStream;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +33,7 @@ public class VersionedDocumentServiceImpl implements VersionedDocumentService {
 		this.documentService = documentService;
 		this.documentRepository = documentRepository;
 		this.modelMapper = modelMapper;
+
 	}
 
 	@Override
@@ -59,6 +65,12 @@ public class VersionedDocumentServiceImpl implements VersionedDocumentService {
 			});
 		versionedDocument.setVersionedDocumentId(String.format("%s_%s", documentEntity.getId(), versionedDocument.getVersion()));
 		documentEntity.getVersionedDocumentEntityList().add(versionedDocumentEntity);
+		try {
+			// long operation simulation
+			Thread.sleep(10000L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		this.documentRepository.save(documentEntity);
 	}
 }

@@ -15,8 +15,10 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFutureCallback;
+import org.springframework.web.server.ResponseStatusException;
 
 import cz.vse.chan01.mi.api.contract.rabbitmq.UuidMessagePostProcessor;
 import cz.vse.chan01.swagger.contract.model.Contract;
@@ -27,8 +29,6 @@ public class DocumentServiceImpl implements DocumentService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DocumentServiceImpl.class);
 
-	private final RabbitTemplate rabbitTemplate;
-
 	private final AsyncRabbitTemplate asyncRabbitTemplate;
 
 	private final DirectExchange exchange;
@@ -36,18 +36,16 @@ public class DocumentServiceImpl implements DocumentService {
 	private final ModelMapper modelMapper;
 
 	@Value("${document-service.routing-key.contract}")
-	private String keyContract;
+	private String contractRoutingKey;
 
 	@Value("${document-service.routing-key.document}")
-	private String keyDocument;
+	private String documentRountingKey;
 
 	public DocumentServiceImpl(
-		final RabbitTemplate rabbitTemplate,
 		final AsyncRabbitTemplate asyncRabbitTemplate,
 		final DirectExchange exchange,
 		final ModelMapper modelMapper
 	) {
-		this.rabbitTemplate = rabbitTemplate;
 		this.asyncRabbitTemplate = asyncRabbitTemplate;
 		this.exchange = exchange;
 		this.modelMapper = modelMapper;
@@ -56,46 +54,46 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public void document(final Contract contract) {
 		final UUID uuid = UUID.randomUUID();
-		LOGGER.info(String.format("[%s] Sending message of %s class to exchange: %s using routing key: %s",
-			uuid, contract.getClass().getName(), exchange.getName(), keyContract));
-		//rabbitTemplate.convertAndSend(exchange.getName(), routingKeyContract, contract, new UuidMessagePostProcessor(uuid));
-
-		AsyncRabbitTemplate.RabbitConverterFuture<Document> future =
-			asyncRabbitTemplate.convertSendAndReceive(exchange.getName(), keyContract, contract, new UuidMessagePostProcessor(uuid));
+		LOGGER.info("[{}] Requested creation of new Document from Contract with id={}", uuid, contract.getContractId());
+		final AsyncRabbitTemplate.RabbitConverterFuture<Document> future =
+			asyncRabbitTemplate.convertSendAndReceive(exchange.getName(), contractRoutingKey, contract, new UuidMessagePostProcessor(uuid));
 
 		future.addCallback(new ListenableFutureCallback<>() {
 			@Override
 			public void onFailure(Throwable throwable) {
-				throwable.printStackTrace();
+				LOGGER.error("[{}] Creation of Document from Contract with id={} is not confirmed", uuid, contract.getContractId());
 			}
 
 			@Override
 			public void onSuccess(Document document) {
-				LOGGER.info(String.format("[%s] Received message of %s class from exchange: %s, message: %s",
-					uuid, document.getClass().getName(), exchange.getName(), document));
+				LOGGER.info("[{}] Creation of Document from Contract with id={} succeed. New Document id={}",
+					uuid, contract.getContractId(), document.getDocumentId());
 			}
 		});
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<cz.vse.chan01.swagger.contract.model.Document> documentsByCustomerId(final Long customerId) {
+	public List<cz.vse.chan01.swagger.contract.model.Document> documentsByContractId(final Long contractId) {
 		final UUID uuid = UUID.randomUUID();
-		LOGGER.info(String.format("[%s] Sending message of %s class to exchange: %s using routing key: %s, message: %s",
-			uuid, customerId.getClass().getName(), exchange.getName(), keyDocument, customerId));
+		LOGGER.info("[{}] Requested List<Document> belonging to Contract with id={}", uuid, contractId);
 		try {
-			return ((List<Document>) asyncRabbitTemplate
-				.convertSendAndReceive(exchange.getName(), keyDocument, customerId, new UuidMessagePostProcessor(uuid))
+			final List<cz.vse.chan01.swagger.contract.model.Document> documents = ((List<Document>) asyncRabbitTemplate
+				.convertSendAndReceive(exchange.getName(), documentRountingKey, contractId, new UuidMessagePostProcessor(uuid))
 				.get(5L, TimeUnit.SECONDS))
 				.stream()
 				.map(d -> modelMapper.map(d, cz.vse.chan01.swagger.contract.model.Document.class))
 				.collect(Collectors.toList());
+			LOGGER.info("[{}] Returning List<Document> with {} entities belonging to Contract with id={}", uuid, documents.size(), contractId);
+			return documents;
 		} catch (InterruptedException | ExecutionException e) {
-			LOGGER.error("Thread inerrupted", e);
-			Thread.currentThread().interrupt();
+			final String message = String.format("[%s] Thread interrupted upon requesting List<Document> belonging to Contract with id=%s", uuid, contractId);
+			LOGGER.error(message);
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, message, e);
 		} catch (TimeoutException e) {
-			LOGGER.error("The request timeouted", e);
+			final String message = String.format("[%s] Request timeout upon requesting List<Document> belonging to Contract with id=%s", uuid, contractId);
+			LOGGER.error(message);
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, message, e);
 		}
-		return Collections.emptyList();
 	}
 }

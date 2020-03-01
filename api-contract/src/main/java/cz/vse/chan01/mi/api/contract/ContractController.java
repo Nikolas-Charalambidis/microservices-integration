@@ -19,8 +19,6 @@ import cz.vse.chan01.swagger.contract.model.Contract;
 @RestController("/")
 public class ContractController implements ContractApi {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ContractController.class);
-
 	@Value("${eureka.instance.hostname}")
 	private String hostname;
 
@@ -46,7 +44,7 @@ public class ContractController implements ContractApi {
 
 	@Override
 	public ResponseEntity<List<cz.vse.chan01.swagger.contract.model.Document>> documentByContractId(Long contractId) {
-		return ResponseEntity.ok(this.documentService.documentsByCustomerId(contractId));
+		return ResponseEntity.ok(this.documentService.documentsByContractId(contractId));
 	}
 
 	@Override
@@ -55,7 +53,6 @@ public class ContractController implements ContractApi {
 		final URI location = ServletUriComponentsBuilder
 			.fromCurrentRequest().path("/{id}")
 			.buildAndExpand(id).toUri();
-		LOGGER.info(String.format("Created a new contract {id: %s}, available at: %s", id, location));
 		return ResponseEntity.created(location).build();
 	}
 }

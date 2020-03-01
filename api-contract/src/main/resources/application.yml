@@ -25,13 +25,13 @@ spring:
     
 document-service:
   routing-key:
-    contract: contract
-    document: document
+    contract: contractRoutingKey
+    document: documentRoutingKey
 
 feign:
   hystrix:
     enabled: true
-            
+    
 eureka:
   client:
     fetch-registry: true
