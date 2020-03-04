@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * Contract
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-01T22:49:51.114+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-04T00:31:53.519+01:00")
 
 public class Contract  implements Serializable {
   private static final long serialVersionUID = 1L;
