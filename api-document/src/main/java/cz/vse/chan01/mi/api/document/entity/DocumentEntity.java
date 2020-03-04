@@ -1,6 +1,8 @@
 package cz.vse.chan01.mi.api.document.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +13,9 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import cz.vse.chan01.swagger.contract.model.Contract;
+import cz.vse.chan01.swagger.document.model.Document.DocumentStatusEnum;
 
 @Document
 @Entity
@@ -44,10 +49,30 @@ public class DocumentEntity {
 
 	}
 
+	public DocumentEntity(
+		@NotBlank final String id,
+		@NotNull final LocalDateTime localDateTime,
+		@NotBlank final String version,
+		@NotNull @Valid Contract contract)
+	{
+		this(
+			id,
+			contract.getContractId(),
+			contract.getCustomerId(),
+			String.format("%s: %s", contract.getCustomerLabel().toUpperCase(), contract.getContractType().name()),
+			DocumentStatusEnum.CREATED.name(),
+			localDateTime.toLocalDate(),
+			null,
+			Collections.singletonList(new VersionedDocumentEntity(
+				String.format("%s_%s", id, version), localDateTime, version, "PDF", "JVBERi0xLjUKJYCBgo=="))
+		);
+	}
+
 	public DocumentEntity(final String id, @NotNull final Long caseId, @NotNull final Long customerId,
 		@NotBlank final String name, @NotBlank final String documentStatus,
 		@NotNull final LocalDate creationDate, final LocalDate archivationDate,
-		@NotNull @Valid final List<VersionedDocumentEntity> versionedDocumentEntityList) {
+		@NotNull @Valid final List<VersionedDocumentEntity> versionedDocumentEntityList)
+	{
 		this.id = id;
 		this.caseId = caseId;
 		this.customerId = customerId;

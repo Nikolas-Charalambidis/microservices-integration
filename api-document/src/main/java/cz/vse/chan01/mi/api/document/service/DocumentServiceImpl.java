@@ -94,28 +94,16 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public Document document(final Contract contract) {
-		final LocalDateTime now = LocalDateTime.now();
 		final String id = String.format("%s_%s_%s",
 			contract.getCustomerId(), contract.getContractType().name(), contract.getContractId());
-		final String version = "1.0.0";
 
-		this.documentRepository.findById(id)
-			.ifPresent(de -> {
+		this.documentRepository.findById(id).ifPresent(de -> {
 				final String message = String.format("The document {id: %s} already exists", de.getId());
 				LOGGER.error(message);
 				throw new DocumentExistsException(message);});
 
-		final DocumentEntity documentEntity = new DocumentEntity(
-			id,
-			contract.getContractId(),
-			contract.getCustomerId(),
-			String.format("%s: %s", contract.getCustomerLabel().toUpperCase(), contract.getContractType().name()),
-			DocumentStatusEnum.CREATED.name(),
-			now.toLocalDate(),
-			null,
-			Collections.singletonList(new VersionedDocumentEntity(
-				String.format("%s_%s", id, version), now, "1.0.0", "PDF",
-					"JVBERi0xLjUKJYCBgo==")));
+		final DocumentEntity documentEntity = new DocumentEntity(id, LocalDateTime.now(), "1.0.0", contract);
+
 		try {
 			// long operation simulation
 			Thread.sleep(10000L);

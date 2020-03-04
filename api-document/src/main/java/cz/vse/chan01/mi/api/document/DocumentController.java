@@ -12,12 +12,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import cz.vse.chan01.mi.api.document.service.DocumentService;
 import cz.vse.chan01.mi.api.document.service.VersionedDocumentService;
-import cz.vse.chan01.swagger.contract.model.Contract;
 import cz.vse.chan01.swagger.document.api.DocumentApi;
 import cz.vse.chan01.swagger.document.model.Document;
 import cz.vse.chan01.swagger.document.model.VersionedDocument;
 
-@RestController("/")
+@RestController
 public class DocumentController implements DocumentApi {
 
 	private final DocumentService documentService;
