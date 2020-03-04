@@ -22,16 +22,10 @@ public class Producer {
 	private static final Logger logger = LoggerFactory.getLogger(Producer.class);
 	private static final String TOPIC = "document-topic";
 
-	//@Bean
-	//public NewTopic topic1() {
-	//	return new NewTopic(TOPIC, 3, (short) 3);
-	//}
-
 	@Autowired
 	private KafkaTemplate<String, Notification> kafkaTemplate;
 
 	public void sendMessage(String message) {
-		atomicInteger.getAndIncrement();
 		int key = atomicInteger.getAndIncrement();
 		Notification notification = new Notification();
 		notification.setNotificationId(String.valueOf(key));
