@@ -1,12 +1,19 @@
 spring:
   application:
-    name: api-notification
+    name: api-notification-sms
   cloud:
     config:
       uri: http://${eureka.instance.hostname}:8888
   redis:
     host: localhost
     port: 6379
+  kafka:
+    consumer:
+      bootstrap-servers: http://${eureka.instance.hostname}:29092
+      group-id: notification-sms
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 eureka:
   client:

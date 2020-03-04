@@ -18,7 +18,8 @@
 		<module>api-customer</module>
 		<module>api-contract</module>
 		<module>api-document</module>
-		<module>api-notification</module>
+		<module>api-notification-email</module>
+		<module>api-notification-sms</module>
 	</modules>
 
 	<parent>

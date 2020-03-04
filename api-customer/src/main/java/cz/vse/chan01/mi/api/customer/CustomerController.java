@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cz.vse.chan01.swagger.customer.api.CustomerApi;
 import cz.vse.chan01.swagger.customer.model.Customer;
 
-@RestController("/")
+@RestController
 public class CustomerController implements CustomerApi {
 
 	private final CustomerService customerService;

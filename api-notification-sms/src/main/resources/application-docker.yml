@@ -1,0 +1,13 @@
+spring:
+  redis:
+    host: mi-redis
+  kafka:
+    consumer:
+      bootstrap-servers: mi-kafka:29092
+      
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8080/eureka/
+  instance:
+    hostname: api-notification-sms

@@ -16,7 +16,7 @@ import cz.vse.chan01.mi.api.contract.service.DocumentServiceImpl;
 import cz.vse.chan01.swagger.contract.api.ContractApi;
 import cz.vse.chan01.swagger.contract.model.Contract;
 
-@RestController("/")
+@RestController
 public class ContractController implements ContractApi {
 
 	@Value("${eureka.instance.hostname}")

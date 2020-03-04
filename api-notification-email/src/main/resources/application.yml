@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: api-notification-email
+  cloud:
+    config:
+      uri: http://${eureka.instance.hostname}:8888
+  #redis:
+  #  host: localhost
+  #  port: 6379
+  kafka:
+    consumer:
+      bootstrap-servers: http://${eureka.instance.hostname}:29092
+      group-id: notification-email
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: http://${eureka.instance.hostname}:29092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+eureka:
+  client:
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 15
+    leaseExpirationDurationInSeconds: 2
+    prefer-ip-address: true
+
+sidecar:
+  app-name: eureka-sidecar-redis
