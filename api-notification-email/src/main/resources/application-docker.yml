@@ -4,8 +4,6 @@ spring:
   kafka:
     consumer:
       bootstrap-servers: mi-kafka:29092
-    producer:
-      bootstrap-servers: mi-kafka:29092
       
 eureka:
   client:

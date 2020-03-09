@@ -28,7 +28,7 @@ import javax.validation.constraints.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-04T00:31:53.924+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-09T00:33:52.392+01:00")
 
 @Api(value = "notification", description = "the notification API")
 public interface NotificationApi {
@@ -58,7 +58,7 @@ public interface NotificationApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"notificationId\" : \"notificationId\",  \"source\" : \"source\",  \"label\" : \"label\",  \"type\" : \"SMS\",  \"creationDate\" : \"2000-01-23\",  \"message\" : \"message\"}", Notification.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"notificationId\" : \"notificationId\",  \"notificationType\" : [ {    \"type\" : \"SMS\",    \"value\" : \"value\"  }, {    \"type\" : \"SMS\",    \"value\" : \"value\"  } ],  \"source\" : \"source\",  \"label\" : \"label\",  \"creationDate\" : \"2000-01-23\",  \"message\" : \"message\",  \"status\" : \"REQUESTED\"}", Notification.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

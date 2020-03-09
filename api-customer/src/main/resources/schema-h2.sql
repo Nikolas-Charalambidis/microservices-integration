@@ -3,5 +3,6 @@ CREATE TABLE customer (
   name VARCHAR(250) NOT NULL,
   surname VARCHAR(250) NOT NULL,
   email VARCHAR(250) DEFAULT NULL,
+  phone VARCHAR(21) DEFAULT NULL,
   date_birth DATE NOT NULL
 );

@@ -20,7 +20,6 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>cz.vse.chan01</groupId>
 			<artifactId>swagger</artifactId>

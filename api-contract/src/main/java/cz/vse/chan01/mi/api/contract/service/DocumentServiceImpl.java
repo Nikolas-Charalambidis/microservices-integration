@@ -61,7 +61,8 @@ public class DocumentServiceImpl implements DocumentService {
 		future.addCallback(new ListenableFutureCallback<>() {
 			@Override
 			public void onFailure(Throwable throwable) {
-				LOGGER.error("[{}] Creation of Document from Contract with id={} is not confirmed", uuid, contract.getContractId());
+				LOGGER.error("[{}] Creation of Document from Contract with id={} is not confirmed. Exception: {}",
+					uuid, contract.getContractId(), throwable.getMessage());
 			}
 
 			@Override

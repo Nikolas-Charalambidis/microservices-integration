@@ -28,7 +28,7 @@ import javax.validation.constraints.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-04T00:31:53.067+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-09T00:33:51.637+01:00")
 
 @Api(value = "customer", description = "the customer API")
 public interface CustomerApi {
@@ -59,7 +59,7 @@ public interface CustomerApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"surname\" : \"surname\",  \"customerId\" : 0,  \"name\" : \"name\",  \"dateBirth\" : \"2000-01-23\",  \"email\" : \"email\"}", Customer.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"phone\" : \"phone\",  \"surname\" : \"surname\",  \"customerId\" : 0,  \"name\" : \"name\",  \"dateBirth\" : \"2000-01-23\",  \"email\" : \"email\"}", Customer.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -83,7 +83,7 @@ public interface CustomerApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"surname\" : \"surname\",  \"customerId\" : 0,  \"name\" : \"name\",  \"dateBirth\" : \"2000-01-23\",  \"email\" : \"email\"}, {  \"surname\" : \"surname\",  \"customerId\" : 0,  \"name\" : \"name\",  \"dateBirth\" : \"2000-01-23\",  \"email\" : \"email\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"phone\" : \"phone\",  \"surname\" : \"surname\",  \"customerId\" : 0,  \"name\" : \"name\",  \"dateBirth\" : \"2000-01-23\",  \"email\" : \"email\"}, {  \"phone\" : \"phone\",  \"surname\" : \"surname\",  \"customerId\" : 0,  \"name\" : \"name\",  \"dateBirth\" : \"2000-01-23\",  \"email\" : \"email\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

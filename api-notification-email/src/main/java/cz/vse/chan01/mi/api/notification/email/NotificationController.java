@@ -23,7 +23,7 @@ public class NotificationController implements NotificationApi {
 	private Producer producer;
 
 	public ResponseEntity<Notification> postNotification(Notification document) {
-		producer.sendMessage(LocalDateTime.now().toString());
+		producer.sendMessage(new Notification());
 		return ResponseEntity.ok(null);
 	}
 

@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.rabbitmq.client.Channel;
 
 import cz.vse.chan01.mi.api.document.service.DocumentService;
+import cz.vse.chan01.mi.api.document.service.NotificationService;
 import cz.vse.chan01.swagger.contract.model.Contract;
 import cz.vse.chan01.swagger.document.model.Document;
 
@@ -25,8 +25,11 @@ public class DocumentListener {
 
 	private final DocumentService documentService;
 
-	public DocumentListener(final DocumentService documentService) {
+	private final NotificationService notificationService;
+
+	public DocumentListener(final DocumentService documentService, final NotificationService notificationService) {
 		this.documentService = documentService;
+		this.notificationService = notificationService;
 	}
 
 	@RabbitListener(queues = "document-queue.contract")
@@ -42,6 +45,9 @@ public class DocumentListener {
 		LOGGER.info("[{}] Requested creation of new Document from Contract with id={}", correlationId, contract.getContractId());
 		final Document document =  this.documentService.document(contract);
 		channel.basicAck(tag, false);
+
+		this.notificationService.sendNotification(document);
+
 		LOGGER.info("[{}] Created a new Document with id={}", correlationId, document.getDocumentId());
 		return document;
 	}

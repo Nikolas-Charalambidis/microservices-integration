@@ -14,7 +14,9 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
+    template:
+      default-topic: document-topic
+      
 eureka:
   client:
     fetch-registry: true

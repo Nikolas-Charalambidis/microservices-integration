@@ -18,5 +18,6 @@ public class Consumer {
 	@KafkaListener(topics = "document-topic")
 	public void consume(@Payload Notification message) {
 		logger.info(String.format("#### -> Consumed message -> %s", message.getNotificationId()));
+		//throw new RuntimeException("shit happens");
 	}
 }

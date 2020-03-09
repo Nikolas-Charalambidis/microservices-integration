@@ -1,0 +1,37 @@
+@startuml
+[-> "Document API"
+activate "Document API"
+"Document API" -> "Topic"
+box "Apache Kafka"
+    participant "Topic"
+	participant "Partition X"
+    participant "Partition Y"
+end box
+box "Consumter Group: notification-sms"
+    participant "Notification SMS API"
+end box
+box "Consumter Group: notification-email"
+    participant "Notification Email API"
+end box
+activate "Topic"
+"Topic" --> "Document API": Confirmed
+[<-- "Document API": 201 Created
+deactivate "Document API"
+activate "Partition X"
+activate "Partition Y"
+"Topic" --> "Partition X": Append-to-end
+"Topic" --> "Partition Y": Append-to-end
+deactivate "Topic"
+... waiting in the partition ...
+par
+"Partition X" --> "Notification Email API": Push
+"Notification Email API" --> "Partition X":  Acknowledged, commit offset
+else
+"Partition Y" --> "Notification SMS API": Push
+"Notification SMS API" --> "Partition Y":  Acknowledge, commit offset
+end
+
+deactivate "Partition X"
+
+deactivate "Partition Y"
+@enduml

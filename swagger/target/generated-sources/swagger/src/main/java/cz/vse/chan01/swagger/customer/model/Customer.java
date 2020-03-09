@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * Customer
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-04T00:31:53.067+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-09T00:33:51.637+01:00")
 
 public class Customer  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -31,6 +31,9 @@ public class Customer  implements Serializable {
 
   @JsonProperty("email")
   private String email = null;
+
+  @JsonProperty("phone")
+  private String phone = null;
 
   @JsonProperty("dateBirth")
   private LocalDate dateBirth = null;
@@ -115,6 +118,26 @@ public class Customer  implements Serializable {
     this.email = email;
   }
 
+  public Customer phone(String phone) {
+    this.phone = phone;
+    return this;
+  }
+
+  /**
+   * Get phone
+   * @return phone
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
   public Customer dateBirth(LocalDate dateBirth) {
     this.dateBirth = dateBirth;
     return this;
@@ -150,12 +173,13 @@ public class Customer  implements Serializable {
         Objects.equals(this.name, customer.name) &&
         Objects.equals(this.surname, customer.surname) &&
         Objects.equals(this.email, customer.email) &&
+        Objects.equals(this.phone, customer.phone) &&
         Objects.equals(this.dateBirth, customer.dateBirth);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(customerId, name, surname, email, dateBirth);
+    return Objects.hash(customerId, name, surname, email, phone, dateBirth);
   }
 
   @Override
@@ -167,6 +191,7 @@ public class Customer  implements Serializable {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    surname: ").append(toIndentedString(surname)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    dateBirth: ").append(toIndentedString(dateBirth)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -2,10 +2,13 @@ package cz.vse.chan01.mi.api.notification.email;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -20,6 +23,12 @@ import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 
+import org.springframework.kafka.listener.AcknowledgingMessageListener;
+import org.springframework.kafka.listener.ContainerProperties.AckMode;
+import org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter;
+import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.kafka.support.DefaultKafkaHeaderMapper;
+import org.springframework.kafka.support.converter.MessagingMessageConverter;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
@@ -67,6 +76,9 @@ public class KafkaConfiguration {
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, "notification-email");
 		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+
+		props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+
 		return new DefaultKafkaConsumerFactory<>(
 			props,
 			new StringDeserializer(),
@@ -77,7 +89,14 @@ public class KafkaConfiguration {
 	public ConcurrentKafkaListenerContainerFactory<String, Notification> kafkaListenerContainerFactory() {
 		ConcurrentKafkaListenerContainerFactory<String, Notification> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		factory.setConsumerFactory(consumerFactory());
+		factory.getContainerProperties().setAckMode(AckMode.MANUAL_IMMEDIATE);
+		factory.getContainerProperties().setAckOnError(false);
 		return factory;
+	}
+
+	@Bean
+	DefaultKafkaHeaderMapper kafkaHeaderMapper() {
+		return new DefaultKafkaHeaderMapper();
 	}
 
 	////////

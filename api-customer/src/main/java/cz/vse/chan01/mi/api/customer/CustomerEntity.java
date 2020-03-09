@@ -27,15 +27,19 @@ public class CustomerEntity {
 	@Column(name="email")
 	private String email;
 
+	@Column(name="phone")
+	private String phone;
+
 	@Column(name="date_birth")
 	private LocalDate dateBirth;
 
 	public CustomerEntity() {}
 
-	public CustomerEntity(final String name, final String surname, final String email, final LocalDate dateBirth) {
+	public CustomerEntity(final String name, final String surname, final String email, final String phone, final LocalDate dateBirth) {
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
+		this.phone = phone;
 		this.dateBirth = dateBirth;
 	}
 
@@ -71,6 +75,14 @@ public class CustomerEntity {
 		this.email = email;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(final String phone) {
+		this.phone = phone;
+	}
+
 	public LocalDate getDateBirth() {
 		return dateBirth;
 	}
@@ -91,15 +103,15 @@ public class CustomerEntity {
 		return Objects.equals(getCustomerId(), that.getCustomerId()) &&
 			Objects.equals(getName(), that.getName()) &&
 			Objects.equals(getSurname(), that.getSurname()) &&
+			Objects.equals(getEmail(), that.getEmail()) &&
+			Objects.equals(getPhone(), that.getPhone()) &&
 			Objects.equals(getDateBirth(), that.getDateBirth());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getCustomerId(), getName(), getSurname(), getDateBirth());
+		return Objects.hash(getCustomerId(), getName(), getSurname(), getEmail(), getPhone(), getDateBirth());
 	}
-	//getters, setters, toString, hashCode, equals
-
 
 	@Override
 	public String toString() {
@@ -108,6 +120,7 @@ public class CustomerEntity {
 			", name='" + name + '\'' +
 			", surname='" + surname + '\'' +
 			", email='" + email + '\'' +
+			", phone='" + phone + '\'' +
 			", dateBirth=" + dateBirth +
 			'}';
 	}

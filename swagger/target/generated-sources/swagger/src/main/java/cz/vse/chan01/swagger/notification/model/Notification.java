@@ -4,9 +4,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import cz.vse.chan01.swagger.notification.model.NotificationType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -16,7 +19,7 @@ import javax.validation.constraints.*;
  * Notification
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-04T00:31:53.924+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-09T00:33:52.392+01:00")
 
 public class Notification  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -24,39 +27,9 @@ public class Notification  implements Serializable {
   @JsonProperty("notificationId")
   private String notificationId = null;
 
-  /**
-   * Gets or Sets type
-   */
-  public enum TypeEnum {
-    SMS("SMS"),
-    
-    EMAIL("EMAIL");
-
-    private String value;
-
-    TypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static TypeEnum fromValue(String text) {
-      for (TypeEnum b : TypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("type")
-  private TypeEnum type = null;
+  @JsonProperty("notificationType")
+  @Valid
+  private List<NotificationType> notificationType = null;
 
   @JsonProperty("creationDate")
   private LocalDate creationDate = null;
@@ -69,6 +42,40 @@ public class Notification  implements Serializable {
 
   @JsonProperty("message")
   private String message = null;
+
+  /**
+   * Gets or Sets status
+   */
+  public enum StatusEnum {
+    REQUESTED("REQUESTED"),
+    
+    SENT("SENT");
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StatusEnum fromValue(String text) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("status")
+  private StatusEnum status = null;
 
   public Notification notificationId(String notificationId) {
     this.notificationId = notificationId;
@@ -90,24 +97,33 @@ public class Notification  implements Serializable {
     this.notificationId = notificationId;
   }
 
-  public Notification type(TypeEnum type) {
-    this.type = type;
+  public Notification notificationType(List<NotificationType> notificationType) {
+    this.notificationType = notificationType;
+    return this;
+  }
+
+  public Notification addNotificationTypeItem(NotificationType notificationTypeItem) {
+    if (this.notificationType == null) {
+      this.notificationType = new ArrayList<>();
+    }
+    this.notificationType.add(notificationTypeItem);
     return this;
   }
 
   /**
-   * Get type
-   * @return type
+   * Get notificationType
+   * @return notificationType
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public TypeEnum getType() {
-    return type;
+  public List<NotificationType> getNotificationType() {
+    return notificationType;
   }
 
-  public void setType(TypeEnum type) {
-    this.type = type;
+  public void setNotificationType(List<NotificationType> notificationType) {
+    this.notificationType = notificationType;
   }
 
   public Notification creationDate(LocalDate creationDate) {
@@ -191,6 +207,26 @@ public class Notification  implements Serializable {
     this.message = message;
   }
 
+  public Notification status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Get status
+   * @return status
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public StatusEnum getStatus() {
+    return status;
+  }
+
+  public void setStatus(StatusEnum status) {
+    this.status = status;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -202,16 +238,17 @@ public class Notification  implements Serializable {
     }
     Notification notification = (Notification) o;
     return Objects.equals(this.notificationId, notification.notificationId) &&
-        Objects.equals(this.type, notification.type) &&
+        Objects.equals(this.notificationType, notification.notificationType) &&
         Objects.equals(this.creationDate, notification.creationDate) &&
         Objects.equals(this.source, notification.source) &&
         Objects.equals(this.label, notification.label) &&
-        Objects.equals(this.message, notification.message);
+        Objects.equals(this.message, notification.message) &&
+        Objects.equals(this.status, notification.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(notificationId, type, creationDate, source, label, message);
+    return Objects.hash(notificationId, notificationType, creationDate, source, label, message, status);
   }
 
   @Override
@@ -220,11 +257,12 @@ public class Notification  implements Serializable {
     sb.append("class Notification {\n");
     
     sb.append("    notificationId: ").append(toIndentedString(notificationId)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    notificationType: ").append(toIndentedString(notificationType)).append("\n");
     sb.append("    creationDate: ").append(toIndentedString(creationDate)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }

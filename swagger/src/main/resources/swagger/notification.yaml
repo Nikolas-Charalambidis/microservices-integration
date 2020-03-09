@@ -35,9 +35,10 @@ definitions:
       notificationId:
         type: string
         readOnly: true
-      type:
-        type: string
-        enum: [SMS, EMAIL]
+      notificationType:
+        type: array
+        items:
+          "$ref": "#/definitions/NotificationType"
       creationDate:
         type: string
         format: date
@@ -47,4 +48,14 @@ definitions:
         type: string
       message:
         type: string
-        
+      status:
+        type: string
+        enum: [REQUESTED, SENT]
+  NotificationType:
+    type: object
+    properties:
+      type:
+        type: string
+        enum: [SMS, EMAIL]
+      value:
+        type: string
