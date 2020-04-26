@@ -61,12 +61,11 @@ public class NotificationServiceImpl implements NotificationService {
 			notification.addNotificationTypeItem(notificationType);
 		}
 
-		notification.setNotificationId(uuid.toString());
+		notification.setNotificationId(UUID.randomUUID().toString());
 		notification.setStatus(StatusEnum.REQUESTED);
 		notification.setCreationDate(LocalDate.now());
-		notification.setLabel(document.getName());
-		notification.setMessage(String.format("Dear customer, the document %s was created.", document.getDocumentId()));
 		notification.setLabel(document.getDocumentId());
+		notification.setMessage(String.format("Dear customer, the document %s was created.", document.getName()));
 
 		final Message<Notification> message = new GenericMessage<>(notification, Map.of(
 			KafkaHeaders.CORRELATION_ID, uuid.toString(),

@@ -55,7 +55,7 @@ services:
         condition: service_healthy
     ports:
       - 8080:8080
-      -
+
   api-document-8090:
     image: chan01.vse.cz/mi-api-document:1.0.0
     container_name: api-document-8090

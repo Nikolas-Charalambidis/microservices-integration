@@ -17,10 +17,11 @@ spring:
           max-interval: 10s
           multiplier: 2
   kafka:
-    consumer:
+    producer:
       bootstrap-servers: http://${eureka.instance.hostname}:29092
     template:
       default-topic: document-topic
+
 
   autoconfigure:
     exclude:

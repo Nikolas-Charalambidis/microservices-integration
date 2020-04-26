@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * NotificationType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-09T00:33:52.392+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-11T17:13:58.603+01:00")
 
 public class NotificationType  implements Serializable {
   private static final long serialVersionUID = 1L;

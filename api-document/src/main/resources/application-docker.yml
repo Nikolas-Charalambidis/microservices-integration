@@ -2,7 +2,7 @@ spring:
   rabbitmq:
     host: mi-rabbitmq
   kafka:
-    consumer:
+    producer:
       bootstrap-servers: mi-kafka:29092
 
 eureka:

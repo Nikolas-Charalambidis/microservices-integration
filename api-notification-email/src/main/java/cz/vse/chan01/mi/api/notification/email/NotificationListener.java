@@ -1,6 +1,7 @@
 package cz.vse.chan01.mi.api.notification.email;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,7 @@ import cz.vse.chan01.swagger.notification.model.NotificationType.TypeEnum;
 @Component
 public class NotificationListener implements AcknowledgingMessageListener<String, Notification> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Producer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NotificationListener.class);
 
 	private final DefaultKafkaHeaderMapper kafkaHeaderMapper;
 
@@ -39,24 +40,27 @@ public class NotificationListener implements AcknowledgingMessageListener<String
 		final String correlationId = (String) customHeaders.get(KafkaHeaders.CORRELATION_ID);
 		final String topic = record.topic();
 
-		final String emailList = payload.getNotificationType().stream()
+		final List<String> emails = payload.getNotificationType().stream()
 			.filter(notificationType -> TypeEnum.EMAIL.equals(notificationType.getType()))
 			.map(NotificationType::getValue)
-			.collect(Collectors.joining(", "));
+			.collect(Collectors.toList());
 
-		LOGGER.info("[{}] Requested Email Notification with id={} from {} to {}", correlationId, payload.getNotificationId(), topic, emailList);
+		LOGGER.info("[{}] Requested Email Notification with id={} from {}, received {} emails", correlationId, payload.getNotificationId(), topic, emails.size());
 
-		this.sendNotification(payload);
+		this.sendNotification(payload.getNotificationId(), emails);
 
 		acknowledgment.acknowledge();
 	}
 
-	private void sendNotification(@SuppressWarnings("unused") Notification notification) {
-		try {
-			// SEND NOTIFICATION
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+	private void sendNotification(final String notificationId, @SuppressWarnings("unused") final List<String> emails) {
+		for (String email: emails) {
+			try {
+				// IMPLEMENTATION OF NOTIFICATION SENDING THROUGH EMAIL GATEWAY
+				Thread.sleep(1000);
+				LOGGER.info("Sending email to {} from notification {} succeed", email, notificationId);
+			} catch (InterruptedException e) {
+				LOGGER.error("Sending email to {} from notification {} failed", email, notificationId);
+			}
 		}
 	}
 }

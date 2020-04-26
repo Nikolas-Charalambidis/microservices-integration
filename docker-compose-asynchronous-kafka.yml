@@ -3,6 +3,17 @@ services:
 
   ### INFRASTRUCTURE ###
   
+  # RabbitMQ
+  mi-rabbitmq:
+    image: rabbitmq:management
+    container_name: mi-rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - mi-rabbitmq-data
+  
+  # Kafka
   mi-zookeeper:
     #wurstmeister
     image: confluentinc/cp-zookeeper:latest
@@ -29,7 +40,6 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-
   ### MICROSERVICES ###
 
   # Eureka Server
@@ -50,7 +60,6 @@ services:
       - 8762:8080
   
   # API
-
   api-document-8090:
     image: chan01.vse.cz/mi-api-document:1.0.0
     container_name: api-document-8090

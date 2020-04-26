@@ -1,7 +1,5 @@
 package cz.vse.chan01.mi.api.notification.email;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
